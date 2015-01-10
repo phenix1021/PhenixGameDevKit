@@ -1,4 +1,0 @@
-PhenixGameDevKit
-================
-
-game dev kit
