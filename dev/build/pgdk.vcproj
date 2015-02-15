@@ -152,6 +152,18 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="base"
+			>
+			<File
+				RelativePath="..\src\SimpleDelegate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\SimpleDelegate.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\src\stdafx.cpp"
 			>
