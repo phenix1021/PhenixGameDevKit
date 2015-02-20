@@ -156,7 +156,7 @@
 			Name="base"
 			>
 			<File
-				RelativePath="..\src\SimpleDelegate.cpp"
+				RelativePath="..\include\ref.hpp"
 				>
 			</File>
 			<File
