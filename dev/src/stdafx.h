@@ -9,3 +9,6 @@
 #include <set>
 #include <list>
 #include <vector>
+#include <string>
+
+#include "../include/types.h"

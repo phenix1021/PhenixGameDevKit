@@ -1,5 +1,5 @@
-#ifndef PHENIX_BASE_H
-#define PHENIX_BASE_H
+#ifndef PHENIX_BASE_REF_H
+#define PHENIX_BASE_REF_H
 
 namespace Phenix
 {
@@ -28,3 +28,5 @@ template<typename T> inline ReferenceWrapper<const T> CRef(const T& t)
 
 } // end namespace Base
 } // end namespace Phenix
+
+#endif
