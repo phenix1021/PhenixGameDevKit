@@ -156,11 +156,27 @@
 			Name="base"
 			>
 			<File
-				RelativePath="..\src\SimpleDelegate.cpp"
+				RelativePath="..\include\ref.h"
 				>
 			</File>
 			<File
 				RelativePath="..\include\SimpleDelegate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\types.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="timer"
+			>
+			<File
+				RelativePath="..\src\timer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\timer.h"
 				>
 			</File>
 		</Filter>

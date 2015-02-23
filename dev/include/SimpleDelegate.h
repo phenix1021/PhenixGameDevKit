@@ -1,5 +1,5 @@
-#ifndef PHENIX_BASE_H
-#define PHENIX_BASE_H
+#ifndef PHENIX_BASE_SIMPLEDELEGATE_H
+#define PHENIX_BASE_SIMPLEDELEGATE_H
 
 namespace Phenix
 {
