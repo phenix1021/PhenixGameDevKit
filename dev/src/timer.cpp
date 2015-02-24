@@ -42,11 +42,11 @@ namespace Timer
 			Phenix::UInt32 range = (1 << (WORK_WHEEL_BITS+i*ASSIST_WHEEL_BITS));
 			if (ticks < range)
 			{
-				Phenix::UInt32 val = (1 << (WORK_WHEEL_BITS+(i-1)*ASSIST_WHEEL_BITS));
+				Phenix::UInt32 val = (WORK_WHEEL_BITS+(i-1)*ASSIST_WHEEL_BITS);
 				while (ticks >= WORK_WHEEL_SIZE)
 				{
-					Phenix::Int16 idx = ticks / val;
-					ticks %= val;
+					Phenix::UInt32 idx = ticks >> val;
+					ticks &= (val-1);
 					if (!wheel->m_nodes[idx].lower_wheel)
 					{
 						wheel->m_nodes[idx].lower_wheel = new Wheel(NULL, wheel, 
