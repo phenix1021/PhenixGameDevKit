@@ -153,10 +153,10 @@
 	</References>
 	<Files>
 		<Filter
-			Name="base"
+			Name="Base"
 			>
 			<File
-				RelativePath="..\include\ref.h"
+				RelativePath="..\include\Ref.h"
 				>
 			</File>
 			<File
@@ -164,19 +164,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\types.h"
+				RelativePath="..\include\Types.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="timer"
+			Name="Timer"
 			>
 			<File
-				RelativePath="..\src\timer.cpp"
+				RelativePath="..\src\Timer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\timer.h"
+				RelativePath="..\include\Timer.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Memory"
+			>
+			<File
+				RelativePath="..\include\ObjectPool.h"
 				>
 			</File>
 		</Filter>
