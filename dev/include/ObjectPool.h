@@ -1,3 +1,11 @@
+#ifndef PHENIX_MEMORY_OBJECTPOOL_H
+#define PHENIX_MEMORY_OBJECTPOOL_H
+
+namespace Phenix
+{
+namespace Memory
+{
+
 template<typename T, size_t max_obj_count = 0, bool is_single_thread = true>
 class ObjectPool
 {
@@ -195,3 +203,8 @@ private:
 	std::vector<void*> m_free_chunks;
 	std::vector<void*> m_blocks;
 };
+
+} // end namespace Memory
+} // end namespace Phenix
+
+#endif

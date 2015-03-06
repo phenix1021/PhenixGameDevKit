@@ -156,6 +156,14 @@
 			Name="Base"
 			>
 			<File
+				RelativePath="..\include\AutoList.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Noncopyable.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\Ref.h"
 				>
 			</File>
