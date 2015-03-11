@@ -39,7 +39,7 @@ public:
 
 	T* Create()
 	{
-		void* ptr = GetPtr();
+		void* ptr = Alloc();
 		if (!ptr)
 		{
 			return NULL;
@@ -59,7 +59,7 @@ public:
 	template<typename ARG>
 	T* Create(const ARG& arg)
 	{
-		void* ptr = GetPtr();
+		void* ptr = Alloc();
 		if (!ptr)
 		{
 			return NULL;
@@ -79,7 +79,7 @@ public:
 	template<typename ARG1, typename ARG2>
 	T* Create(const ARG1& arg1, const ARG2& arg2)
 	{
-		void* ptr = GetPtr();
+		void* ptr = Alloc();
 		if (!ptr)
 		{
 			return NULL;
@@ -99,7 +99,7 @@ public:
 	template<typename ARG1, typename ARG2, typename ARG3>
 	T* Create(const ARG1& arg1, const ARG2& arg2, const ARG3& arg3)
 	{
-		void* ptr = GetPtr();
+		void* ptr = Alloc();
 		if (!ptr)
 		{
 			return NULL;
@@ -119,7 +119,7 @@ public:
 	template<typename ARG1, typename ARG2, typename ARG3, typename ARG4>
 	T* Create(const ARG1& arg1, const ARG2& arg2, const ARG3& arg3, const ARG4& arg4)
 	{
-		void* ptr = GetPtr();
+		void* ptr = Alloc();
 		if (!ptr)
 		{
 			return NULL;
@@ -139,7 +139,7 @@ public:
 	template<typename ARG1, typename ARG2, typename ARG3, typename ARG4, typename ARG5>
 	T* Create(const ARG1& arg1, const ARG2& arg2, const ARG3& arg3, const ARG4& arg4, const ARG5& arg5)
 	{
-		void* ptr = GetPtr();
+		void* ptr = Alloc();
 		if (!ptr)
 		{
 			return NULL;
@@ -158,11 +158,12 @@ public:
 
 	void Release(T* ptr)
 	{
+		ptr->~T();
 		m_free_chunks.push_back(ptr);		
 	}
 
 private:
-	void* GetPtr()
+	void* Alloc()
 	{
 		void* ptr = NULL;
 		if (!m_free_chunks.empty())

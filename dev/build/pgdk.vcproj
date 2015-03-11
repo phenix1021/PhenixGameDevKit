@@ -192,6 +192,10 @@
 			Name="Memory"
 			>
 			<File
+				RelativePath="..\include\BinaryFrameAlloc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\ObjectPool.h"
 				>
 			</File>
