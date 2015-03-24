@@ -200,6 +200,22 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="AI"
+			>
+			<Filter
+				Name="ANN"
+				>
+				<File
+					RelativePath="..\src\MLP.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\MLP.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
 		<File
 			RelativePath="..\src\stdafx.cpp"
 			>
