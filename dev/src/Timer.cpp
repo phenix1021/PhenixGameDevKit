@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "../include/timer.h"
-#include "../include/ObjectPool.h"
+#include <Timer/Timer.h>
+#include <Memory/ObjectPool.h>
 
 namespace Phenix
 {

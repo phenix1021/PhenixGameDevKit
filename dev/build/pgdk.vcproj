@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(POCO_FOUNDATION_INCLUDE)&quot;;&quot;$(GTEST_INCLUDE)&quot;"
+				AdditionalIncludeDirectories="&quot;$(POCO_FOUNDATION_INCLUDE)&quot;;&quot;$(GTEST_INCLUDE)&quot;;../include/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -109,7 +109,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(POCO_FOUNDATION_INCLUDE)&quot;;&quot;$(GTEST_INCLUDE)&quot;"
+				AdditionalIncludeDirectories="&quot;$(POCO_FOUNDATION_INCLUDE)&quot;;&quot;$(GTEST_INCLUDE)&quot;;../include/"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -156,23 +156,27 @@
 			Name="Base"
 			>
 			<File
-				RelativePath="..\include\AutoList.h"
+				RelativePath="..\include\Base\AutoList.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Noncopyable.h"
+				RelativePath="..\include\Base\Noncopyable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Ref.h"
+				RelativePath="..\include\Base\Parser.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\SimpleDelegate.h"
+				RelativePath="..\include\Base\Ref.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Types.h"
+				RelativePath="..\include\Base\SimpleDelegate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Base\Types.h"
 				>
 			</File>
 		</Filter>
@@ -184,25 +188,21 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\Timer.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Memory"
-			>
-			<File
-				RelativePath="..\include\BinaryFrameAlloc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\ObjectPool.h"
+				RelativePath="..\include\Timer\Timer.h"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="AI"
 			>
+			<File
+				RelativePath="..\src\GA.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\AI\GA.h"
+				>
+			</File>
 			<Filter
 				Name="ANN"
 				>
@@ -211,10 +211,62 @@
 					>
 				</File>
 				<File
-					RelativePath="..\include\MLP.h"
+					RelativePath="..\include\AI\MLP.h"
 					>
 				</File>
+				<Filter
+					Name="Resource"
+					>
+					<File
+						RelativePath="..\src\samples.dat"
+						>
+					</File>
+					<File
+						RelativePath="..\src\weights.dat"
+						>
+					</File>
+				</Filter>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Math"
+			>
+			<File
+				RelativePath="..\src\Geometry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Math\Geometry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Math\Rand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Math\Statistic.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Math\Utils.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Math\Vector2D.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Memory"
+			>
+			<File
+				RelativePath="..\include\Memory\BinaryFrameAlloc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Memory\ObjectPool.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\src\stdafx.cpp"

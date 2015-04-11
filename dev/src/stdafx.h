@@ -10,5 +10,8 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <algorithm>
 
-#include "../include/Types.h"
+#include <Base/Types.h>
+
+const double Pi     = 3.14159;
