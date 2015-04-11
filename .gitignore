@@ -13,3 +13,7 @@ output
 /dev/build/temp/vc90.pdb
 /dev/pgdk.ncb
 /dev/pgdk.suo
+/dev/build/temp/*.obj
+/dev/build/temp/*.obj
+/dev/build/temp/*.obj
+/dev/build/temp/*.obj

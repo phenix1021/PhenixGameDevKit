@@ -49,7 +49,7 @@ namespace Math
 		// return a random bool
 		inline static bool RandBool()
 		{
-			return RandInt(0, 1);
+			return RandInt(0, 1) > 0;
 		}		
 
 		// 产生一个符合正态分布规律的随机数

@@ -72,7 +72,7 @@ namespace GA
 
 	void GA::SelectElite( std::vector<ChromosomeData>& children )
 	{		
-		Phenix::Int32 elite_num = m_chromosomes.size()*m_elite_rate;
+		Phenix::Int32 elite_num = Phenix::Int32(m_chromosomes.size()*m_elite_rate);
 		for (Phenix::Int32 i=0; i<elite_num; ++i)
 		{				
 			children.push_back(m_chromosomes[m_chromosomes.size()-1-i]);
@@ -85,7 +85,7 @@ namespace GA
 		double slice = Phenix::Math::Random::RandFloatEx() * m_fitness_sum;
 		double total  = 0.0;
 		Phenix::Int32 idx = 0;
-		for (int i=0; i<m_chromosomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i)
 		{
 			total += m_chromosomes[i].fitness;
 			if (total > slice) 
@@ -103,7 +103,7 @@ namespace GA
 		Phenix::Int32 idx = 0;
 		//Select N members from the population at random testing against 
 		//the best found so far
-		Phenix::Int32 N = m_chromosomes.size() * 0.1;
+		Phenix::Int32 N = Phenix::Int32(m_chromosomes.size() * 0.1);
 		for (Phenix::Int32 i=0; i<N; ++i)
 		{
 			Phenix::Int32 j = Phenix::Math::Random::RandInt(0, m_chromosomes.size()-1);
@@ -140,7 +140,7 @@ namespace GA
 	void GA::MakeStat()
 	{
 		std::sort(m_chromosomes.begin(), m_chromosomes.end());
-		for (Phenix::Int32 i=0; i<m_chromosomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i)
 		{
 			m_fitness_sum += m_chromosomes[i].fitness;
 		}
@@ -167,7 +167,7 @@ namespace GA
 			throw;
 		}
 
-		for (Phenix::Int32 i=0; i<m_chromosomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i)
 		{
 			m_fitness_sum += m_chromosomes[i].fitness;
 		}
@@ -176,7 +176,7 @@ namespace GA
 
 	void GA::ScaleRank()
 	{
-		for (Phenix::Int32 i=0; i<m_chromosomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i)
 		{
 			m_chromosomes[i].fitness = i;
 		}
@@ -187,7 +187,7 @@ namespace GA
 		double RunningTotal = 0.0;
 		//first iterate through the population to calculate the standard
 		//deviation
-		for (Phenix::Int32 i=0; i<m_chromosomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i)
 		{
 			RunningTotal += (m_chromosomes[i].fitness - m_fitness_average) *
 				(m_chromosomes[i].fitness - m_fitness_average);
@@ -197,7 +197,7 @@ namespace GA
 		//standard deviation is the square root of the variance
 		double sigma = sqrt(sd);
 		//now iterate through the population to reassign the fitness scores
-		for (Phenix::Int32 i=0; i<m_chromosomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i)
 		{
 			double old_fitness = m_chromosomes[i].fitness;
 
@@ -227,7 +227,7 @@ namespace GA
 		//keep a record of e^(fitness/temp) for each individual
 		std::vector<double> expboltz; 
 		double average = 0.0;
-		for (Phenix::Int32 i=0; i<m_chromosomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i)
 		{
 			expboltz.push_back(exp(m_chromosomes[i].fitness / m_boltzmann_temp));
 
@@ -236,7 +236,7 @@ namespace GA
 		average /= (double)m_chromosomes.size();
 
 		//now iterate once more to calculate the new expected values
-		for (Phenix::Int32 i=0; i<m_chromosomes.size(); ++i) 
+		for (Phenix::UInt32 i=0; i<m_chromosomes.size(); ++i) 
 		{ 
 			m_chromosomes[i].fitness = expboltz[i]/average;
 		}
@@ -283,7 +283,7 @@ namespace GA
 			child.genomes.push_back(mother.genomes[i]);
 		}
 
-		for (Phenix::Int32 i=cp; i<mother.genomes.size(); ++i)
+		for (Phenix::UInt32 i=cp; i<mother.genomes.size(); ++i)
 		{
 			child.genomes.push_back(father.genomes[i]);
 		}	
@@ -316,7 +316,7 @@ namespace GA
 		float gene_crossover_rate = (Phenix::Math::Random::RandFloat() * max_genes_that_can_get_swapped) / 
 			(float)mother.genomes.size();
 
-		for (Phenix::Int32 i=0; i<mother.genomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<mother.genomes.size(); ++i)
 		{
 			if (Phenix::Math::Random::RandFloat() < gene_crossover_rate)
 			{
@@ -334,7 +334,7 @@ namespace GA
 	void GA::CrossoverAverage( ChromosomeData& father, ChromosomeData& mother, ChromosomeData& child )
 	{
 		//iterate down the length of the genome averaging the values
-		for (Phenix::Int32 i=0; i<mother.genomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<mother.genomes.size(); ++i)
 		{
 			child.genomes.push_back((mother.genomes[i] + father.genomes[i]) * 0.5);
 		}
@@ -345,7 +345,7 @@ namespace GA
 		double rate = 0.1;//RandFloat();
 
 		//iterate down the length of the genome using the heuristic
-		for (Phenix::Int32 i=0; i<father.genomes.size(); ++i)
+		for (Phenix::UInt32 i=0; i<father.genomes.size(); ++i)
 		{
 			double new_gene_value = father.genomes[i] + rate * 
 				(father.genomes[i] - mother.genomes[i]);
