@@ -20,6 +20,7 @@ namespace SimpleDelegate
 	3. boost::ref
 	4. 不可复制
 	5. 注释
+	6. 成员函数类型的包装成智能指针
 	*/
 	template<typename U>
 	class Function;
@@ -46,6 +47,7 @@ namespace SimpleDelegate
 		virtual ReturnType operator () (ArgType1 arg1) = 0;
 	};
 
+	// for 全局函数、静态函数
 	template<typename R, typename A1>
 	class FunctionImplFunc
 		:public FunctionImplBase<R, A1>
@@ -60,6 +62,7 @@ namespace SimpleDelegate
 		CallBack m_call_back;
 	};
 
+	// for 类成员函数
 	template<typename R, typename T, typename A1>
 	class FunctionImplMethod
 		:public FunctionImplBase<R, A1>
