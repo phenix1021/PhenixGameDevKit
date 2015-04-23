@@ -2,14 +2,14 @@
 //
 
 #include "stdafx.h"
-#include <Base/SimpleDelegate.h>
-//#include <Timer/Timer.h> 
-//#include <Memory/BinaryFrameAlloc.h>
-//#include <Memory/ObjectPool.h>
-//#include <Base/AutoList.h>
-#include <Base/Ref.h>
-#include <Base/Noncopyable.h>
-//#include <Base/Parser.h>
+#include <Phenix/Base/SimpleDelegate.h>
+//#include <Phenix/Timer/Timer.h> 
+//#include <Phenix/Memory/BinaryFrameAlloc.h>
+//#include <Phenix/Memory/ObjectPool.h>
+//#include <Phenix/Base/AutoList.h>
+#include <Phenix/Base/Ref.h>
+#include <Phenix/Base/Noncopyable.h>
+//#include <Phenix/Base/Parser.h>
 
 int _tmain(int argc, _TCHAR* argv[])
 {
