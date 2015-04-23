@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include <AI/GA.h>
-#include <Math/Rand.h>
-#include <Math/Utils.h>
+#include <Phenix/AI/GA.h>
+#include <Phenix/Math/Rand.h>
+#include <Phenix/Math/Utils.h>
 
 namespace Phenix
 {

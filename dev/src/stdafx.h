@@ -12,6 +12,6 @@
 #include <string>
 #include <algorithm>
 
-#include <Base/Types.h>
+#include <Phenix/Base/Types.h>
 
 const double Pi     = 3.14159;
