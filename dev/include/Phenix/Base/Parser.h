@@ -15,10 +15,11 @@ namespace Base
 {
 	class Parser
 	{
+	public:
 		template<typename T>
-		inline static Phenix::String ToString(const T& arg);
+		inline static Phenix::String ToString(const T& arg)
 		{
-			ostringstream buffer;
+			std::ostringstream buffer;
 			buffer << arg;
 			return buffer.str();		
 		}

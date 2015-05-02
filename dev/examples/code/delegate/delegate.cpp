@@ -8,6 +8,8 @@
 #include <Phenix/Base/SharedPtr.h>
 
 using Phenix::Base::SharedPtr;
+using Phenix::Base::Function;
+using Phenix::Base::Bind;
 
 void say0(){std::cout<<"hello world"<<std::endl;}
 void say1(Phenix::Int32 i){std::cout<<i<<std::endl;}
@@ -54,10 +56,10 @@ public:
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Phenix::Base::Function<void(Phenix::Int32)> func2;
+	Function<void(Phenix::Int32)> func2;
 		TFunc tf;
 		{
-			Phenix::Base::Function<void(Phenix::Int32)> func1 = Phenix::Base::Bind(&TFunc::speak1, &tf);
+			Function<void(Phenix::Int32)> func1 = Bind(&TFunc::speak1, &tf);
 			func2 = func1;
 		}
 		

@@ -4,8 +4,8 @@
  * @author	phenix
  * @mark
  ******************************************************************************/
-#ifndef PHENIX_BASE_SIMPLEDELEGATE_H
-#define PHENIX_BASE_SIMPLEDELEGATE_H
+#ifndef PHENIX_BASE_DELEGATE_H
+#define PHENIX_BASE_DELEGATE_H
 
 #include <Phenix/Base/SharedPtr.h>
 
