@@ -9,7 +9,6 @@
 #include <set>
 #include <list>
 #include <vector>
-#include <string>
 #include <algorithm>
 
 #include <Phenix/Base/Types.h>

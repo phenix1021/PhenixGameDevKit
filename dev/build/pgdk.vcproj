@@ -156,27 +156,31 @@
 			Name="Base"
 			>
 			<File
-				RelativePath="..\include\Base\AutoList.h"
+				RelativePath="..\include\Phenix\Base\AutoList.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Base\Noncopyable.h"
+				RelativePath="..\include\Phenix\Base\Delegate.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Base\Parser.h"
+				RelativePath="..\include\Phenix\Base\Noncopyable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Base\Ref.h"
+				RelativePath="..\include\Phenix\Base\Parser.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Base\SimpleDelegate.h"
+				RelativePath="..\include\Phenix\Base\Ref.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Base\Types.h"
+				RelativePath="..\include\Phenix\Base\SharedPtr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Base\Types.h"
 				>
 			</File>
 		</Filter>
@@ -188,7 +192,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\Timer\Timer.h"
+				RelativePath="..\include\Phenix\Timer\Timer.h"
 				>
 			</File>
 		</Filter>
@@ -200,7 +204,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\AI\GA.h"
+				RelativePath="..\include\Phenix\AI\GA.h"
 				>
 			</File>
 			<Filter
@@ -211,7 +215,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\include\AI\MLP.h"
+					RelativePath="..\include\Phenix\AI\MLP.h"
 					>
 				</File>
 				<Filter
@@ -236,23 +240,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\Math\Geometry.h"
+				RelativePath="..\include\Phenix\Math\Geometry.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Math\Rand.h"
+				RelativePath="..\include\Phenix\Math\Rand.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Math\Statistic.h"
+				RelativePath="..\include\Phenix\Math\Statistic.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Math\Utils.h"
+				RelativePath="..\include\Phenix\Math\Utils.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Math\Vector2D.h"
+				RelativePath="..\include\Phenix\Math\Vector2D.h"
 				>
 			</File>
 		</Filter>
@@ -260,11 +264,11 @@
 			Name="Memory"
 			>
 			<File
-				RelativePath="..\include\Memory\BinaryFrameAlloc.h"
+				RelativePath="..\include\Phenix\Memory\BinaryFrameAlloc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Memory\ObjectPool.h"
+				RelativePath="..\include\Phenix\Memory\ObjectPool.h"
 				>
 			</File>
 		</Filter>
@@ -276,7 +280,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\Thread\Thread.h"
+				RelativePath="..\include\Phenix\Thread\Thread.h"
 				>
 			</File>
 		</Filter>

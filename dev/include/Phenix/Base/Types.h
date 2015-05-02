@@ -7,6 +7,8 @@
 #ifndef PHENIX_TYPES_H
 #define PHENIX_TYPES_H
 
+#include <string>
+
 namespace Phenix
 {
 
