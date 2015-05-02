@@ -4,10 +4,9 @@
  * @author	phenix
  * @mark
  ******************************************************************************/
-#ifndef PHENIX_BASE_SIMPLEDELEGATE_H
-#define PHENIX_BASE_SIMPLEDELEGATE_H
+#ifndef PHENIX_THREAD_H
+#define PHENIX_THREAD_H
 
-#include <windows.h>
 #include <Phenix/Base/Delegate.h>
 
 using Phenix::Base::Function;
@@ -32,22 +31,27 @@ namespace Thread
 
 	public:
 		static DWORD WINAPI Entry(void* thread);
-		static void Sleep(long milliseconds);
-		static void Yield();
+		static void SleepCurThread(long milliseconds);
+		static void YieldCurThread();
+		static DWORD GetCurThreadID();
 
 	public:	
 		Thread();
+		Thread(const Phenix::String& thread_name);
+
 		virtual ~Thread();
 		
-		void	Start(ThreadFunc func);
+		bool	IsRunning();
+		bool	IsCurrentThread();
+		//void	Start(ThreadFunc& func);
 		void	CleanUp();
+		
 		HANDLE	GetHandle() const { return m_hnd; }
 		DWORD	GetID() const { return m_id; }
-		bool	IsRunning();
-	private:
+		const Phenix::String& GetName() const {return m_name;}
 		
-
-		ThreadFunc		m_func;
+	private:
+		//ThreadFunc		m_func;
 		Phenix::String	m_name;
 		HANDLE			m_hnd;
 		DWORD			m_id;

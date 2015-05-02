@@ -70,7 +70,7 @@ namespace GA
 	};
 
 	// 基因组生成器
-	interface GenomesGenerator
+	class GenomesGenerator
 	{
 	public:
 		virtual std::vector<double> Make() = 0;

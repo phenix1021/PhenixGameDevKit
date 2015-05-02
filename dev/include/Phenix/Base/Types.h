@@ -22,8 +22,6 @@ typedef signed __int64			Int64;
 typedef unsigned __int64		UInt64;
 typedef std::string				String;
 
-#define interface	class
-
 } // end namespace Phenix
 
 #endif

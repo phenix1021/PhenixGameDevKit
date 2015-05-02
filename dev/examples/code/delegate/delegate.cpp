@@ -1,5 +1,4 @@
 // delegate.cpp : Defines the entry point for the console application.
-//
 
 #include "stdafx.h"
 #include <iostream>
@@ -8,19 +7,23 @@
 #include <Phenix/Base/SharedPtr.h>
 
 using Phenix::Base::SharedPtr;
+using Phenix::Base::Function;
+using Phenix::Base::Bind;
 
 void say0(){std::cout<<"hello world"<<std::endl;}
 void say1(Phenix::Int32 i){std::cout<<i<<std::endl;}
-void say2(Phenix::Int32 i, Phenix::String& j){std::cout<<i<<" "<<j<<std::endl;}
-void say3(Phenix::Int32 i, float j, Phenix::String& k){std::cout<<i<<" "<<j<<" "<<k<<std::endl;}
+void say2(Phenix::Int32 i, Phenix::String j){std::cout<<i<<" "<<j<<std::endl;}
+void say3(Phenix::Int32 i, float j, Phenix::String k){std::cout<<i<<" "<<j<<" "<<k<<std::endl;}
 
 class TFunc
 {
 public:
+	TFunc(){std::cout<<"start"<<std::endl;}
+	virtual ~TFunc(){std::cout<<"finished"<<std::endl;}
 	void speak0(){std::cout<<"hello world"<<std::endl;}
 	void speak1(Phenix::Int32 i){std::cout<<i<<std::endl;}
 	void speak2(Phenix::Int32 i, Phenix::String& j){std::cout<<i<<" "<<j<<std::endl;}
-	void speak3(Phenix::Int32 i, float j, Phenix::String& k){std::cout<<i<<" "<<j<<" "<<k<<std::endl;}
+	void speak3(Phenix::Int32 i, float j, Phenix::String k){std::cout<<i<<" "<<j<<" "<<k<<std::endl;}
 };
 class Father
 {
@@ -54,14 +57,17 @@ public:
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Phenix::Base::Function<void(Phenix::Int32)> func2;
-		TFunc tf;
-		{
-			Phenix::Base::Function<void(Phenix::Int32)> func1 = Phenix::Base::Bind(&TFunc::speak1, &tf);
-			func2 = func1;
-		}
-		
-		func2(10);
+	{
+		Function<void()> func2;
+	SharedPtr<TFunc> tf(new TFunc());
+	//TFunc* tf = new TFunc;
+	
+ 		Function<void()> func1 = Bind(&TFunc::speak0, tf);
+		std::cout<<tf.GetRefCount()<<std::endl;
+ 		func2 = func1;		
+	
+	//Phenix::String ss =	"hello";
+	func2();
 
 // 	{
 // 		Box b1(new Son);
@@ -70,6 +76,15 @@ int _tmain(int argc, _TCHAR* argv[])
 // 		b1 = b2;
 // 		b3 = b1;
 // 	}	
+	std::cout<<tf.GetRefCount()<<std::endl;
+	}
+	/*{	
+	TFunc* f1 = new TFunc();
+	TFunc* f2 = new TFunc();
+	SharedPtr<TFunc> tf1(f1);
+	SharedPtr<TFunc> tf2(f2);
+	tf1 = tf2;
+	}*/
 
 	getchar();
 	return 0;
