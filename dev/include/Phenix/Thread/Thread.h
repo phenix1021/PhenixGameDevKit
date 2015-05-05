@@ -31,9 +31,12 @@ namespace Thread
 
 	public:
 		static DWORD WINAPI Entry(void* thread);
-		static void SleepCurThread(long milliseconds);
-		static void YieldCurThread();
-		static DWORD GetCurThreadID();
+		static void			SleepCurThread(long milliseconds);
+		static void			YieldCurThread();
+		static DWORD		GetCurThreadID();
+		static void			WaitCurThreadCompleted(Thread& thread);
+		static bool			WaitCurThreadCompleted(Thread& thread, long milliseconds);
+		static Phenix::Int32 GetCurThreadPriority(){return GetThreadPriority(GetCurrentThread());}
 
 	public:	
 		Thread();
@@ -41,20 +44,24 @@ namespace Thread
 
 		virtual ~Thread();
 		
-		bool	IsRunning();
-		bool	IsCurrentThread();
-		//void	Start(ThreadFunc& func);
+		bool	IsNull() const;
+		bool	IsRunning() const;
+		bool	IsCurThread() const;
+		void	Start(ThreadFunc& func);
 		void	CleanUp();
 		
 		HANDLE	GetHandle() const { return m_hnd; }
-		DWORD	GetID() const { return m_id; }
+		DWORD	GetID()		const { return m_id; }
+		Phenix::Int32	GetPriority()	const { return m_priority; }
+		bool			SetPriority(Phenix::Int32 priority);
 		const Phenix::String& GetName() const {return m_name;}
 		
 	private:
-		//ThreadFunc		m_func;
+		ThreadFunc		m_func;
 		Phenix::String	m_name;
 		HANDLE			m_hnd;
 		DWORD			m_id;
+		Phenix::Int32	m_priority;
 	};	
 
 
