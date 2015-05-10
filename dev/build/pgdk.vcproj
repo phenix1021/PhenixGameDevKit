@@ -276,6 +276,22 @@
 			Name="Thread"
 			>
 			<File
+				RelativePath="..\src\FastMutex.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Thread\FastMutex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ScopedLock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Thread\ScopedLock.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Thread.cpp"
 				>
 			</File>
