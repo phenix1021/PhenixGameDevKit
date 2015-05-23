@@ -9,92 +9,92 @@ namespace Thread
 {	
 
 
-	DWORD WINAPI Thread::Entry( void* thread )
+	DWORD WINAPI Thread::entry( void* thread )
 	{
-		reinterpret_cast<Thread*>(thread)->m_func();
+		reinterpret_cast<Thread*>(thread)->_func();
 		return 0;
 	}
 
-	void Thread::SleepCurThread( long milliseconds )
+	void Thread::sleep( long milliseconds )
 	{
 		Sleep((DWORD)milliseconds);
 	}
 
-	void Thread::YieldCurThread()
+	void Thread::yield()
 	{
 		Sleep(0);
 	}
 
-	void Thread::Start( ThreadFunc& func )
+	void Thread::start( ThreadFunc& func )
 	{
-		if (!IsRunning())
+		if (!isRunning())
 		{
 			return;
 		}
-		m_func = func;
-		m_hnd = CreateThread(0, 0, &Thread::Entry, this, 0, &m_id);
-		if (IsNull())
+		_func = func;
+		_hnd = CreateThread(0, 0, &Thread::entry, this, 0, &_id);
+		if (isNull())
 		{
 			throw;
 		}		
-		if (m_priority != NORMAL && !SetThreadPriority(m_hnd, m_priority))
+		if (_priority != NORMAL && !SetThreadPriority(_hnd, _priority))
 			throw;
 	}
 
-	bool Thread::IsRunning() const
+	bool Thread::isRunning() const
 	{
-		if (!IsNull())
+		if (!isNull())
 		{
 			DWORD ec = 0;
-			return GetExitCodeThread(m_hnd, &ec) && ec == STILL_ACTIVE;
+			return GetExitCodeThread(_hnd, &ec) && ec == STILL_ACTIVE;
 		}
 		return false;
 	}
 
 	Thread::Thread()
-		:m_hnd(0), m_id(0), m_priority(NORMAL)
+		:_hnd(0), _id(0), _priority(NORMAL)
 	{
 		static Phenix::UInt32 uid = 0;
-		m_name.append("thread#").append(Phenix::Base::Parser::ToString(++uid));
+		_name.append("thread#").append(Phenix::Base::Parser::ToString(++uid));
 	}
 
 	Thread::Thread( const Phenix::String& thread_name )
-		:m_hnd(0), m_id(0), m_priority(NORMAL), m_name(thread_name)
+		:_hnd(0), _id(0), _priority(NORMAL), _name(thread_name)
 	{
 
 	}
 
 	Thread::~Thread()
 	{
-		if (!IsNull())
+		if (!isNull())
 		{
-			CloseHandle(m_hnd);
+			CloseHandle(_hnd);
 		}
 	}
 
-	void Thread::CleanUp()
+	void Thread::cleanUp()
 	{
-		if (!IsNull())
+		if (!isNull())
 		{
-			CloseHandle(m_hnd);
-			m_hnd = 0;
-			m_id = 0;
-			m_priority = NORMAL;
-			m_name.clear();
+			CloseHandle(_hnd);
+			_hnd = 0;
+			_id = 0;
+			_priority = NORMAL;
+			_name.clear();
 		}
 	}
 
-	bool Thread::IsCurThread() const
+	bool Thread::isCurThread() const
 	{
-		return GetCurrentThread() == m_hnd;
+		return GetCurrentThread() == _hnd;
 	}
 
-	DWORD Thread::GetCurThreadID()
+	DWORD Thread::getThreadID()
 	{
 		return GetCurrentThreadId();
 	}
 
-	void Thread::WaitCurThreadCompleted( Thread& thread )
+	void Thread::join( Thread& thread )
 	{
 		if (thread.IsNull())
 		{
@@ -110,11 +110,11 @@ namespace Thread
 		}		
 	}
 
-	bool Thread::WaitCurThreadCompleted( Thread& thread, long milliseconds )
+	bool Thread::join( Thread& thread, long milliseconds )
 	{
 		if (!milliseconds)
 		{
-			WaitCurThreadCompleted(thread);
+			join(thread);
 			return true;
 		}
 		if (thread.IsNull())
@@ -133,16 +133,16 @@ namespace Thread
 		}		
 	}
 
-	bool Thread::IsNull() const
+	bool Thread::isNull() const
 	{
-		return !m_hnd;
+		return !_hnd;
 	}
 
-	bool Thread::SetPriority( Phenix::Int32 priority )
+	bool Thread::setPriority( Phenix::Int32 priority )
 	{		
-		if (m_priority != priority && SetThreadPriority(m_hnd, priority))
+		if (_priority != priority && SetThreadPriority(_hnd, priority))
 		{
-			m_priority = priority;
+			_priority = priority;
 			return true;
 		}		 
 		return false;

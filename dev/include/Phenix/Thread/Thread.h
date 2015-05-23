@@ -30,13 +30,13 @@ namespace Thread
 		};
 
 	public:
-		static DWORD WINAPI Entry(void* thread);
-		static void			SleepCurThread(long milliseconds);
-		static void			YieldCurThread();
-		static DWORD		GetCurThreadID();
-		static void			WaitCurThreadCompleted(Thread& thread);
-		static bool			WaitCurThreadCompleted(Thread& thread, long milliseconds);
-		static Phenix::Int32 GetCurThreadPriority(){return GetThreadPriority(GetCurrentThread());}
+		static DWORD WINAPI entry(void* thread);
+		static void			sleep(long milliseconds);
+		static void			yield();
+		static DWORD		getThreadID();
+		static void			join(Thread& thread);
+		static bool			join(Thread& thread, long milliseconds);
+		static Phenix::Int32 getThreadPriority(){return GetThreadPriority(GetCurrentThread());}
 
 	public:	
 		Thread();
@@ -44,24 +44,24 @@ namespace Thread
 
 		virtual ~Thread();
 		
-		bool	IsNull() const;
-		bool	IsRunning() const;
-		bool	IsCurThread() const;
-		void	Start(ThreadFunc& func);
-		void	CleanUp();
+		bool	isNull() const;
+		bool	isRunning() const;
+		bool	isCurThread() const;
+		void	start(ThreadFunc& func);
+		void	cleanUp();
 		
-		HANDLE	GetHandle() const { return m_hnd; }
-		DWORD	GetID()		const { return m_id; }
-		Phenix::Int32	GetPriority()	const { return m_priority; }
-		bool			SetPriority(Phenix::Int32 priority);
-		const Phenix::String& GetName() const {return m_name;}
+		HANDLE	getHandle() const { return _hnd; }
+		DWORD	getID()		const { return _id; }
+		Phenix::Int32	getPriority()	const { return _priority; }
+		bool			setPriority(Phenix::Int32 priority);
+		const Phenix::String& getName() const {return _name;}
 		
 	private:
-		ThreadFunc		m_func;
-		Phenix::String	m_name;
-		HANDLE			m_hnd;
-		DWORD			m_id;
-		Phenix::Int32	m_priority;
+		ThreadFunc		_func;
+		Phenix::String	_name;
+		HANDLE			_hnd;
+		DWORD			_id;
+		Phenix::Int32	_priority;
 	};	
 
 
