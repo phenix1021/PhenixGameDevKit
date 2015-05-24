@@ -8,7 +8,7 @@ namespace Thread
 
 	FastMutex::FastMutex()
 	{
-		if (!InitializeCriticalSectionAndSpinCount(&m_cs, 4000))
+		if (!InitializeCriticalSectionAndSpinCount(&_cs, 4000))
 		{
 			throw;
 		}		
@@ -16,22 +16,22 @@ namespace Thread
 
 	FastMutex::~FastMutex()
 	{
-		LeaveCriticalSection(&m_cs);
+		LeaveCriticalSection(&_cs);
 	}
 
-	void FastMutex::Lock()
+	void FastMutex::lock()
 	{
-		EnterCriticalSection(&m_cs);
+		EnterCriticalSection(&_cs);
 	}
 
-	bool FastMutex::TryLock()
+	bool FastMutex::tryLock()
 	{
-		return TryEnterCriticalSection(&m_cs);
+		return TryEnterCriticalSection(&_cs);
 	}
 
-	void FastMutex::Unlock()
+	void FastMutex::unlock()
 	{
-		DeleteCriticalSection(&m_cs);
+		DeleteCriticalSection(&_cs);
 	}
 
 }

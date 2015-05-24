@@ -6,14 +6,15 @@ namespace Phenix
 namespace Thread
 {
 
-	ScopedLock::ScopedLock()
+	ScopedLock::ScopedLock(FastMutex& lock)
+		:_lock(lock)
 	{
-		m_lock.Lock();
+		_lock.lock();
 	}
 
 	ScopedLock::~ScopedLock()
 	{
-		m_lock.Unlock();
+		_lock.unlock();
 	}
 
 }

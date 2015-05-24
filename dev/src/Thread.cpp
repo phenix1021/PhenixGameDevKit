@@ -96,14 +96,14 @@ namespace Thread
 
 	void Thread::join( Thread& thread )
 	{
-		if (thread.IsNull())
+		if (thread.isNull())
 		{
 			return;
 		}
-		switch (WaitForSingleObject(thread.m_hnd, INFINITE))
+		switch (WaitForSingleObject(thread._hnd, INFINITE))
 		{		
 		case WAIT_OBJECT_0:
-			thread.CleanUp();
+			thread.cleanUp();
 			return;
 		default:
 			throw;
@@ -117,16 +117,16 @@ namespace Thread
 			join(thread);
 			return true;
 		}
-		if (thread.IsNull())
+		if (thread.isNull())
 		{
 			return false;
 		}
-		switch (WaitForSingleObject(thread.m_hnd, milliseconds))
+		switch (WaitForSingleObject(thread._hnd, milliseconds))
 		{
 		case WAIT_TIMEOUT:
 			return false;
 		case WAIT_OBJECT_0:
-			thread.CleanUp();
+			thread.cleanUp();
 			return true;
 		default:
 			throw;

@@ -24,14 +24,14 @@ public:
 	FastMutex();
 	virtual ~FastMutex();
 
-	void Lock();
-	bool TryLock();
-	void Unlock();
+	void lock();
+	bool tryLock();
+	void unlock();
 
-	const CRITICAL_SECTION& GetLockerInfo() const { return m_cs; }
+	const CRITICAL_SECTION& GetLockerInfo() const { return _cs; }
 
 private:
-	CRITICAL_SECTION	m_cs;	
+	CRITICAL_SECTION	_cs;	
 };
 
 }

@@ -18,11 +18,11 @@ class ScopedLock
 	:private Noncopyable
 {
 public:
-	ScopedLock();
+	ScopedLock(FastMutex& lock);
 	virtual ~ScopedLock();
 
 private:
-	FastMutex m_lock;
+	FastMutex& _lock;
 };
 
 }
