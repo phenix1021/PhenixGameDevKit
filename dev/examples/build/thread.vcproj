@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="delegate"
-	ProjectGUID="{695EA497-2217-47D6-92BE-903AB0B2DFCD}"
-	RootNamespace="delegate"
+	Name="thread"
+	ProjectGUID="{28500609-48DE-4A92-AF95-A86B73790F58}"
+	RootNamespace="thread"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -162,15 +162,23 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\src\delegate\delegate.cpp"
+			RelativePath="..\src\thread\stdafx.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\src\thread\stdafx.h"
 			>
 		</File>
 		<File
-			RelativePath="..\src\delegate\stdafx.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\src\delegate\stdafx.h"
+			RelativePath="..\src\thread\thread.cpp"
 			>
 		</File>
 	</Files>
