@@ -8,6 +8,7 @@
 #define PHENIX_BASE_SHARED_PTR_H
 
 #include <windows.h>
+#include <Phenix/Base/Types.h>
 
 namespace Phenix
 {

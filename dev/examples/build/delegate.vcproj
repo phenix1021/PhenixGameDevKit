@@ -168,6 +168,14 @@
 		<File
 			RelativePath="..\src\delegate\stdafx.cpp"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\src\delegate\stdafx.h"

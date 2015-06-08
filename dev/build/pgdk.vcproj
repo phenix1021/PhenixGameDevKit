@@ -276,6 +276,14 @@
 			Name="Thread"
 			>
 			<File
+				RelativePath="..\src\AtomLock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Thread\AtomLock.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\FastMutex.cpp"
 				>
 			</File>
