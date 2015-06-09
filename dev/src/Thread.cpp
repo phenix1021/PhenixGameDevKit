@@ -94,6 +94,11 @@ namespace Concurrent
 		return GetCurrentThreadId();
 	}
 
+	HANDLE Thread::getThreadHandle()
+	{
+		return GetCurrentThread();
+	}
+
 	void Thread::join( Thread& thread )
 	{
 		if (thread.isNull())
@@ -107,16 +112,32 @@ namespace Concurrent
 			return;
 		default:
 			throw;
-		}		
+		}
 	}
 
 	void Thread::join( std::vector<Thread>& thread_list )
 	{
-	}
+		HANDLE handles[MAXIMUM_WAIT_OBJECTS];
+		Phenix::Int32 cnt = 0;
+		for (Phenix::Int32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
+		{
+			if (thread_list[i].isNull())
+			{
+				continue;
+			}
+			handles[cnt++] = thread_list[i].getHandle();
+		}
 
-	void Thread::join( std::vector<Thread>& thread_list, long milliseconds )
-	{
-	}
+		if (!cnt)
+		{
+			return;
+		}
+
+		if (WAIT_FAILED == WaitForMultipleObjects(cnt, handles, true, INFINITE))
+		{
+			throw;
+		}		
+	}	
 
 	bool Thread::join( Thread& thread, long milliseconds )
 	{
@@ -138,7 +159,36 @@ namespace Concurrent
 			return true;
 		default:
 			throw;
-		}		
+		}
+	}
+
+	bool Thread::join( std::vector<Thread>& thread_list, long milliseconds )
+	{
+		HANDLE handles[MAXIMUM_WAIT_OBJECTS];
+		Phenix::Int32 cnt = 0;
+		for (Phenix::Int32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
+		{
+			if (thread_list[i].isNull())
+			{
+				continue;
+			}
+			handles[cnt++] = thread_list[i].getHandle();
+		}
+
+		if (!cnt)
+		{
+			return false;
+		}
+
+		switch (WaitForMultipleObjects(cnt, handles, true, INFINITE))
+		{
+		case WAIT_TIMEOUT:
+			return false;
+		case WAIT_OBJECT_0:
+			thread.cleanUp();
+			return true;
+		default:
+			throw;		
 	}
 
 	bool Thread::isNull() const

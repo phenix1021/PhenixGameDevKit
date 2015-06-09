@@ -34,11 +34,12 @@ namespace Concurrent
 		static DWORD WINAPI entry(void* thread);
 		static void			sleep(long milliseconds);
 		static void			yield();
+		static HANDLE		getThreadHandle();
 		static DWORD		getThreadID();
 		static void			join(Thread& thread);
 		static void			join(std::vector<Thread>& thread_list);
 		static bool			join(Thread& thread, long milliseconds);
-		static void			join(std::vector<Thread>& thread_list, long milliseconds);
+		static bool			join(std::vector<Thread>& thread_list, long milliseconds);
 		static Phenix::Int32 getThreadPriority(){return GetThreadPriority(GetCurrentThread());}
 
 	public:	
