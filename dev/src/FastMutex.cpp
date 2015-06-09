@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include <Phenix/Thread/FastMutex.h>
+#include <Phenix/Concurrent/FastMutex.h>
 
 namespace Phenix
 {
-namespace Thread
+namespace Concurrent
 {
 
 	FastMutex::FastMutex()

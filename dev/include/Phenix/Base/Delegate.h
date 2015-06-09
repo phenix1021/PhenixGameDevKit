@@ -79,13 +79,15 @@ namespace Base
 	};
 
 	template<typename Ret>
-	FunctionImplFunc0<Ret>* Bind(Ret(*CallBack)(void))
+	//FunctionImplFunc0<Ret>* Bind(Ret(*CallBack)(void))
+	Function<Ret(void)> Bind(Ret(*CallBack)(void))
 	{
 		return new FunctionImplFunc0<Ret>(CallBack);
 	}
 
 	template<typename Ret, typename Cls, typename Obj>
-	FunctionImplMethod0<Ret, Cls, Obj>* Bind(Ret(Cls::*CallBack)(void), Obj obj)
+	//FunctionImplMethod0<Ret, Cls, Obj>* Bind(Ret(Cls::*CallBack)(void), Obj obj)
+	Function<Ret(void)> Bind(Ret(Cls::*CallBack)(void), Obj obj)
 	{
 		return new FunctionImplMethod0<Ret, Cls, Obj>(CallBack, obj);
 	}
@@ -254,12 +256,12 @@ namespace Base
 		CallBack m_call_back;																				\
 	};																										\
 	template<typename Ret, TYPENAME_CALL_ARG##N>															\
-	FunctionImplFunc##N<Ret, CALL_ARG##N>* Bind(Ret(*CallBack)(CALL_ARG##N))								\
+	/*FunctionImplFunc##N<Ret, CALL_ARG##N>**/Function<Ret(CALL_ARG##N)> Bind(Ret(*CallBack)(CALL_ARG##N))								\
 	{																										\
 		return new FunctionImplFunc##N<Ret, CALL_ARG##N>(CallBack);											\
 	}																										\
 	template<typename Ret, TYPENAME_CALL_ARG##N, typename Cls,	typename Obj>								\
-	FunctionImplMethod##N<Ret, CALL_ARG##N, Cls, Obj>* Bind(Ret(Cls::*CallBack)(CALL_ARG##N), Obj obj)		\
+	/*FunctionImplMethod##N<Ret, CALL_ARG##N, Cls, Obj>**/Function<Ret(CALL_ARG##N)> Bind(Ret(Cls::*CallBack)(CALL_ARG##N), Obj obj)		\
 	{																										\
 		return new FunctionImplMethod##N<Ret, CALL_ARG##N, Cls, Obj>(CallBack, obj);						\
 	}

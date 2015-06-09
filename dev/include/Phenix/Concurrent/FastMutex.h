@@ -1,39 +1,37 @@
 /*******************************************************************************
- * @brief	原子锁
- * @date	2015-6-8
+ * @brief	快速互斥锁（基于带自旋的临界区）
+ * @date	2015-5-10
  * @author	phenix
- * @mark    注意原子锁不可重入，即非递归锁，否认会引起死锁
+ * @mark
  ******************************************************************************/
-#ifndef PHENIX_THREAD_ATOM_LOCK_H
-#define PHENIX_THREAD_ATOM_LOCK_H
+#ifndef PHENIX_THREAD_FAST_MUTEX_H
+#define PHENIX_THREAD_FAST_MUTEX_H
 
 #include <Windows.h>
 #include <Phenix/Base/Noncopyable.h>
 
 namespace Phenix
 {
-namespace Thread
+namespace Concurrent
 {
 
 using Phenix::Base::Noncopyable;
 
-class AtomLock
+class FastMutex
 	:private Noncopyable
 {
-	enum
-	{
-		UNLOCKED = 0,
-		LOCKED
-	};
 public:
-	AtomLock();
-	virtual ~AtomLock();
+	FastMutex();
+	virtual ~FastMutex();
 
-	void lock();	
+	void lock();
+	bool tryLock();
 	void unlock();
 
+	const CRITICAL_SECTION& GetLockerInfo() const { return _cs; }
+
 private:
-	volatile long	_lock;	
+	CRITICAL_SECTION	_cs;	
 };
 
 }

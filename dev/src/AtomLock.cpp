@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include <Phenix/Thread/AtomLock.h>
+#include <Phenix/Concurrent/AtomLock.h>
 #include <Windows.h>
-#include <Phenix/Thread/Thread.h>
+#include <Phenix/Concurrent/Thread.h>
 
 namespace Phenix
 {
-namespace Thread
+namespace Concurrent
 {
 
 	AtomLock::AtomLock()

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include <Phenix/Thread/ScopedLock.h>
+#include <Phenix/Concurrent/ScopedLock.h>
 
 namespace Phenix
 {
-namespace Thread
+namespace Concurrent
 {
 
 	ScopedLock::ScopedLock(FastMutex& lock)

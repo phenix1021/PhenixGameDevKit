@@ -7,13 +7,14 @@
 #ifndef PHENIX_THREAD_H
 #define PHENIX_THREAD_H
 
+#include <vector>
 #include <Phenix/Base/Delegate.h>
 
 using Phenix::Base::Function;
 
 namespace Phenix
 {
-namespace Thread
+namespace Concurrent
 {	
 
 	class Thread
@@ -35,7 +36,9 @@ namespace Thread
 		static void			yield();
 		static DWORD		getThreadID();
 		static void			join(Thread& thread);
+		static void			join(std::vector<Thread>& thread_list);
 		static bool			join(Thread& thread, long milliseconds);
+		static void			join(std::vector<Thread>& thread_list, long milliseconds);
 		static Phenix::Int32 getThreadPriority(){return GetThreadPriority(GetCurrentThread());}
 
 	public:	
@@ -65,7 +68,7 @@ namespace Thread
 	};	
 
 
-} // end namespace Thread
+} // end namespace Concurrent
 } // end namespace Phenix
 
 

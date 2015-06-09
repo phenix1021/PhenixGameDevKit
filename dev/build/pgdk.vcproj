@@ -273,14 +273,14 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Thread"
+			Name="Concurrent"
 			>
 			<File
 				RelativePath="..\src\AtomLock.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Phenix\Thread\AtomLock.h"
+				RelativePath="..\include\Phenix\Concurrent\AtomLock.h"
 				>
 			</File>
 			<File
@@ -288,7 +288,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\Phenix\Thread\FastMutex.h"
+				RelativePath="..\include\Phenix\Concurrent\FastMutex.h"
 				>
 			</File>
 			<File
@@ -296,7 +296,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\Phenix\Thread\ScopedLock.h"
+				RelativePath="..\include\Phenix\Concurrent\ScopedLock.h"
 				>
 			</File>
 			<File
@@ -304,7 +304,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\Phenix\Thread\Thread.h"
+				RelativePath="..\include\Phenix\Concurrent\Thread.h"
 				>
 			</File>
 		</Filter>

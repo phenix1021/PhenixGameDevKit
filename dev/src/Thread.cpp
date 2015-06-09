@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include <windows.h>
-#include <Phenix/Thread/Thread.h>
+#include <Phenix/Concurrent/Thread.h>
 #include <Phenix/Base/Parser.h>
 
 namespace Phenix
 {
-namespace Thread
+namespace Concurrent
 {	
 
 
@@ -110,6 +110,14 @@ namespace Thread
 		}		
 	}
 
+	void Thread::join( std::vector<Thread>& thread_list )
+	{
+	}
+
+	void Thread::join( std::vector<Thread>& thread_list, long milliseconds )
+	{
+	}
+
 	bool Thread::join( Thread& thread, long milliseconds )
 	{
 		if (!milliseconds)
@@ -149,5 +157,5 @@ namespace Thread
 	}
 
 
-} // end namespace Thread
+} // end namespace Concurrent
 } // end namespace Phenix

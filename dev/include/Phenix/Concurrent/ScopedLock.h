@@ -7,11 +7,11 @@
 #ifndef PHENIX_THREAD_SCOPED_LOCK_H
 #define PHENIX_THREAD_SCOPED_LOCK_H
 
-#include <Phenix/Thread/FastMutex.h>
+#include <Phenix/Concurrent/FastMutex.h>
 
 namespace Phenix
 {
-namespace Thread
+namespace Concurrent
 {
 
 class ScopedLock
