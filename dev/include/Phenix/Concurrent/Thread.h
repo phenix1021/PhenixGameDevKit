@@ -41,6 +41,7 @@ namespace Concurrent
 		static bool			join(Thread& thread, long milliseconds);
 		static bool			join(std::vector<Thread>& thread_list, long milliseconds);
 		static Phenix::Int32 getThreadPriority(){return GetThreadPriority(GetCurrentThread());}
+		static void			cleanUp(std::vector<Thread>& threads);
 
 	public:	
 		Thread();

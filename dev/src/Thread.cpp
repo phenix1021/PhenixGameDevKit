@@ -99,6 +99,14 @@ namespace Concurrent
 		return GetCurrentThread();
 	}
 
+	void Thread::cleanUp(std::vector<Thread>& threads)
+	{
+		for (Phenix::Int32 i=0; i<threads.size(); ++i)
+		{
+			threads[i].cleanUp();
+		}
+	}
+
 	void Thread::join( Thread& thread )
 	{
 		if (thread.isNull())
@@ -133,10 +141,14 @@ namespace Concurrent
 			return;
 		}
 
-		if (WAIT_FAILED == WaitForMultipleObjects(cnt, handles, true, INFINITE))
+		if (WAIT_OBJECT_0 == WaitForMultipleObjects(cnt, handles, true, INFINITE))
+		{
+			Thread::cleanUp(thread_list);
+		}
+		else
 		{
 			throw;
-		}		
+		}
 	}	
 
 	bool Thread::join( Thread& thread, long milliseconds )
@@ -180,15 +192,16 @@ namespace Concurrent
 			return false;
 		}
 
-		switch (WaitForMultipleObjects(cnt, handles, true, INFINITE))
+		switch (WaitForMultipleObjects(cnt, handles, true, milliseconds))
 		{
 		case WAIT_TIMEOUT:
 			return false;
 		case WAIT_OBJECT_0:
-			thread.cleanUp();
+			Thread::cleanUp(thread_list);
 			return true;
 		default:
 			throw;		
+		}
 	}
 
 	bool Thread::isNull() const
