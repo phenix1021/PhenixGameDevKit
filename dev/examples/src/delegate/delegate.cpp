@@ -6,9 +6,9 @@
 #include <Phenix/Base/Delegate.h>
 #include <Phenix/Base/SharedPtr.h>
 
-using Phenix::Base::SharedPtr;
-using Phenix::Base::Function;
-using Phenix::Base::Bind;
+using Phenix::SharedPtr;
+using Phenix::Function;
+using Phenix::Bind;
 
 void say0(){std::cout<<"hello world"<<std::endl;}
 void say1(Phenix::Int32 i){std::cout<<i<<std::endl;}

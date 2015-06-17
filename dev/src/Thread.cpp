@@ -55,7 +55,7 @@ namespace Concurrent
 		:_hnd(0), _id(0), _priority(NORMAL)
 	{
 		static Phenix::UInt32 uid = 0;
-		_name.append("thread#").append(Phenix::Base::Parser::ToString(++uid));
+		_name.append("thread#").append(Phenix::Parser::ToString(++uid));
 	}
 
 	Thread::Thread( const Phenix::String& thread_name )

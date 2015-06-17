@@ -12,8 +12,7 @@
 
 namespace Phenix
 {
-namespace Base
-{
+
 	template<typename T>
 	class SharedPtr
 	{
@@ -209,7 +208,6 @@ namespace Base
 		T*				m_obj;
 	};
 
-} // end namespace Base
 } // end namespace Phenix
 
 

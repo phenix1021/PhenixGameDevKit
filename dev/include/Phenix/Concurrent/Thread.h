@@ -10,7 +10,7 @@
 #include <vector>
 #include <Phenix/Base/Delegate.h>
 
-using Phenix::Base::Function;
+using Phenix::Function;
 
 namespace Phenix
 {

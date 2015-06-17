@@ -15,7 +15,7 @@ namespace Phenix
 namespace Concurrent
 {
 
-using Phenix::Base::Noncopyable;
+using Phenix::Noncopyable;
 
 class FastMutex
 	:private Noncopyable

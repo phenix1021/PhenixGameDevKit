@@ -11,8 +11,6 @@
 
 namespace Phenix
 {
-namespace Base
-{
 	class Parser
 	{
 	public:
@@ -25,7 +23,6 @@ namespace Base
 		}
 	};
 
-} // end namespace Base
 } // end namespace Phenix
 
 #endif

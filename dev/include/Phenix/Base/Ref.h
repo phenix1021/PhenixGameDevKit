@@ -9,8 +9,6 @@
 
 namespace Phenix
 {
-namespace Base
-{
 
 template<typename T>
 class ReferenceWrapper
@@ -32,7 +30,6 @@ template<typename T> inline ReferenceWrapper<const T> CRef(const T& t)
 	return ReferenceWrapper<const T>(t);
 }
 
-} // end namespace Base
 } // end namespace Phenix
 
 #endif

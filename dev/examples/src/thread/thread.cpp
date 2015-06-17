@@ -30,9 +30,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	TestThread func;	
 	Thread t1("thread1");
 	Thread t2("thread2");
- 	t1.start(Phenix::Base::Bind(&TestThread::run, &func));
- 	t2.start(Phenix::Base::Bind(&TestThread::run, &func));
+ 	t1.start(Phenix::Bind(&TestThread::run, &func));
+ 	t2.start(Phenix::Bind(&TestThread::run, &func));
 	//Thread::join()
+
 	return 0;
 }
 

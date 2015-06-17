@@ -9,8 +9,6 @@
 
 namespace Phenix
 {
-namespace Base
-{
 
 class Noncopyable
 {
@@ -22,7 +20,7 @@ private:
 	Noncopyable(const Noncopyable& other);
 };
 
-} // end namespace Base
+
 } // end namespace Phenix
 
 #endif

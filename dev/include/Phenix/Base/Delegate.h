@@ -11,8 +11,7 @@
 
 namespace Phenix
 {
-namespace Base
-{
+
 	// Function»ùÀàÄ£°å
 	template<typename Signature>
 	class Function;
@@ -342,7 +341,7 @@ namespace Base
 	}
 *******************************************************************/
 
-} // end namespace Base
+
 } // end namespace Phenix
 
 

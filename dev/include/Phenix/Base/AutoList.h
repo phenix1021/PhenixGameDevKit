@@ -9,8 +9,6 @@
 
 namespace Phenix
 {
-namespace Base
-{
 
 template<typename T>
 class AutoList
@@ -43,7 +41,7 @@ private:
 
 template<typename T> std::list<const T*> AutoList<T>::m_objs;
 
-} // end namespace Base
+
 } // end namespace Phenix
 
 #endif
