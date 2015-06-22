@@ -8,15 +8,15 @@ namespace Concurrent
 
 	FastMutex::FastMutex()
 	{
-		if (!InitializeCriticalSectionAndSpinCount(&_cs, 4000))
+		if (!InitializeCriticalSectionAndSpinCount(&_cs, 4000))		
 		{
 			throw;
-		}		
+		}
 	}
 
 	FastMutex::~FastMutex()
 	{
-		LeaveCriticalSection(&_cs);
+		DeleteCriticalSection(&_cs);
 	}
 
 	void FastMutex::lock()
@@ -31,7 +31,7 @@ namespace Concurrent
 
 	void FastMutex::unlock()
 	{
-		DeleteCriticalSection(&_cs);
+		LeaveCriticalSection(&_cs);
 	}
 
 }

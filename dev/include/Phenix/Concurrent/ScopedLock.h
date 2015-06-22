@@ -4,8 +4,8 @@
  * @author	phenix
  * @mark
  ******************************************************************************/
-#ifndef PHENIX_THREAD_SCOPED_LOCK_H
-#define PHENIX_THREAD_SCOPED_LOCK_H
+#ifndef PHENIX_CONCURRENT_SCOPED_LOCK_H
+#define PHENIX_CONCURRENT_SCOPED_LOCK_H
 
 #include <Phenix/Concurrent/FastMutex.h>
 
@@ -14,16 +14,18 @@ namespace Phenix
 namespace Concurrent
 {
 
+template<typename M>
 class ScopedLock
 	:private Noncopyable
 {
 public:
-	ScopedLock(FastMutex& lock);
-	virtual ~ScopedLock();
+	ScopedLock(M& lock):_lock(lock){_lock.lock();}
+	virtual ~ScopedLock(){_lock.unlock();}
 
 private:
-	FastMutex& _lock;
+	M& _lock;
 };
+
 
 }
 }

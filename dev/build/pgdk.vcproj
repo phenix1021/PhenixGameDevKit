@@ -284,6 +284,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Event.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Concurrent\Event.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\FastMutex.cpp"
 				>
 			</File>
@@ -292,11 +300,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\ScopedLock.cpp"
+				RelativePath="..\include\Phenix\Concurrent\ScopedLock.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Phenix\Concurrent\ScopedLock.h"
+				RelativePath="..\src\Semaphore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Concurrent\Semaphore.h"
 				>
 			</File>
 			<File
@@ -305,6 +317,14 @@
 			</File>
 			<File
 				RelativePath="..\include\Phenix\Concurrent\Thread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ThreadPool.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Concurrent\ThreadPool.h"
 				>
 			</File>
 		</Filter>

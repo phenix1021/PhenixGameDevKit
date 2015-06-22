@@ -6,34 +6,52 @@
 #include <Phenix/Base/Delegate.h>
 #include <Phenix/Concurrent/FastMutex.h>
 #include <Phenix/Concurrent/AtomLock.h>
+#include <Phenix/Concurrent/ScopedLock.h>
 
 using Phenix::Concurrent::Thread;
 
 class TestThread
 {
 public:
-	TestThread():cnt(0){}
+	TestThread(){}
+	
 	void run()
 	{
-		while (cnt++ <= 100)
+		while (true)
 		{			
-			std::cout<<Thread::getThreadID()<<": cnt is "<<cnt<<std::endl;
+			//Phenix::Concurrent::ScopedLock<Phenix::Concurrent::AtomLock> lock(mutex);
+			dosth();			
 		}		
+	}	
+
+private:
+	void dosth()// 非同步，会出现访问冲突造成逻辑错误
+	{
+		Phenix::Concurrent::ScopedLock<Phenix::Concurrent::AtomLock> lock(mutex);
+		//++cnt;
+		Thread::sleep(1000);
+		std::cout<<Thread::getThreadID()<<std::endl; //非线程安全
+		//printf("%d\n", Thread::getThreadID());
 	}
 
 private:
-	volatile Phenix::Int32 cnt;
+	//volatile Phenix::Int32 cnt;	
+	Phenix::Concurrent::AtomLock mutex;
 };
 
 int _tmain(int argc, _TCHAR* argv[])
-{	
+{		
 	TestThread func;	
 	Thread t1("thread1");
 	Thread t2("thread2");
  	t1.start(Phenix::Bind(&TestThread::run, &func));
  	t2.start(Phenix::Bind(&TestThread::run, &func));
-	//Thread::join()
+	std::vector<Thread*> vec;
+	vec.push_back(&t1);
+	vec.push_back(&t2);
+	Thread::join(vec);
 
+	getchar();
 	return 0;
 }
 

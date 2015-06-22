@@ -4,11 +4,12 @@
  * @author	phenix
  * @mark
  ******************************************************************************/
-#ifndef PHENIX_THREAD_H
-#define PHENIX_THREAD_H
+#ifndef PHENIX_CONCURRENT_THREAD_H
+#define PHENIX_CONCURRENT_THREAD_H
 
 #include <vector>
 #include <Phenix/Base/Delegate.h>
+#include <Phenix/Base/Noncopyable.h>
 
 using Phenix::Function;
 
@@ -17,10 +18,11 @@ namespace Phenix
 namespace Concurrent
 {	
 
-	class Thread
-	{
-		typedef Function<void()> ThreadFunc;
+	typedef Function<void()> ThreadFunc;
 
+	class Thread
+		:private Phenix::Noncopyable
+	{
 		enum Priority
 		{
 			LOWEST  = THREAD_PRIORITY_LOWEST,
@@ -37,11 +39,11 @@ namespace Concurrent
 		static HANDLE		getThreadHandle();
 		static DWORD		getThreadID();
 		static void			join(Thread& thread);
-		static void			join(std::vector<Thread>& thread_list);
+		static void			join(std::vector<Thread*>& thread_list);
 		static bool			join(Thread& thread, long milliseconds);
-		static bool			join(std::vector<Thread>& thread_list, long milliseconds);
+		static bool			join(std::vector<Thread*>& thread_list, long milliseconds);
 		static Phenix::Int32 getThreadPriority(){return GetThreadPriority(GetCurrentThread());}
-		static void			cleanUp(std::vector<Thread>& threads);
+		static void			cleanUp(std::vector<Thread*>& threads);
 
 	public:	
 		Thread();
@@ -52,6 +54,7 @@ namespace Concurrent
 		bool	isNull() const;
 		bool	isRunning() const;
 		bool	isCurThread() const;
+		
 		void	start(ThreadFunc& func);
 		void	cleanUp();
 		

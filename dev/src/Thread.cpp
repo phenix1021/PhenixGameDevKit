@@ -27,7 +27,7 @@ namespace Concurrent
 
 	void Thread::start( ThreadFunc& func )
 	{
-		if (!isRunning())
+		if (isRunning())
 		{
 			return;
 		}
@@ -99,11 +99,11 @@ namespace Concurrent
 		return GetCurrentThread();
 	}
 
-	void Thread::cleanUp(std::vector<Thread>& threads)
+	void Thread::cleanUp(std::vector<Thread*>& threads)
 	{
 		for (Phenix::Int32 i=0; i<threads.size(); ++i)
 		{
-			threads[i].cleanUp();
+			threads[i]->cleanUp();
 		}
 	}
 
@@ -123,17 +123,17 @@ namespace Concurrent
 		}
 	}
 
-	void Thread::join( std::vector<Thread>& thread_list )
+	void Thread::join( std::vector<Thread*>& thread_list )
 	{
 		HANDLE handles[MAXIMUM_WAIT_OBJECTS];
 		Phenix::Int32 cnt = 0;
 		for (Phenix::Int32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
 		{
-			if (thread_list[i].isNull())
+			if (thread_list[i]->isNull())
 			{
 				continue;
 			}
-			handles[cnt++] = thread_list[i].getHandle();
+			handles[cnt++] = thread_list[i]->getHandle();
 		}
 
 		if (!cnt)
@@ -174,17 +174,17 @@ namespace Concurrent
 		}
 	}
 
-	bool Thread::join( std::vector<Thread>& thread_list, long milliseconds )
+	bool Thread::join( std::vector<Thread*>& thread_list, long milliseconds )
 	{
 		HANDLE handles[MAXIMUM_WAIT_OBJECTS];
 		Phenix::Int32 cnt = 0;
 		for (Phenix::Int32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
 		{
-			if (thread_list[i].isNull())
+			if (thread_list[i]->isNull())
 			{
 				continue;
 			}
-			handles[cnt++] = thread_list[i].getHandle();
+			handles[cnt++] = thread_list[i]->getHandle();
 		}
 
 		if (!cnt)

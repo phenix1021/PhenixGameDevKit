@@ -4,8 +4,8 @@
  * @author	phenix
  * @mark
  ******************************************************************************/
-#ifndef PHENIX_THREAD_FAST_MUTEX_H
-#define PHENIX_THREAD_FAST_MUTEX_H
+#ifndef PHENIX_CONCURRENT_FAST_MUTEX_H
+#define PHENIX_CONCURRENT_FAST_MUTEX_H
 
 #include <Windows.h>
 #include <Phenix/Base/Noncopyable.h>

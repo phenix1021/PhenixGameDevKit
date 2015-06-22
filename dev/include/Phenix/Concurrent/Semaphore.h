@@ -1,11 +1,11 @@
 /*******************************************************************************
- * @brief	原子锁
- * @date	2015-6-8
+ * @brief	semaphore对象
+ * @date	2015-6-22
  * @author	phenix
- * @mark    注意原子锁不可重入，即非递归锁，否认会引起死锁
+ * @mark
  ******************************************************************************/
-#ifndef PHENIX_CONCURRENT_ATOM_LOCK_H
-#define PHENIX_CONCURRENT_ATOM_LOCK_H
+#ifndef PHENIX_CONCURRENT_SEMAPHORE_H
+#define PHENIX_CONCURRENT_SEMAPHORE_H
 
 #include <Windows.h>
 #include <Phenix/Base/Noncopyable.h>
@@ -17,23 +17,19 @@ namespace Concurrent
 
 using Phenix::Noncopyable;
 
-class AtomLock
+class Semaphore
 	:private Noncopyable
 {
-	enum
-	{
-		UNLOCKED = 0,
-		LOCKED
-	};
 public:
-	AtomLock();
-	virtual ~AtomLock();
+	Semaphore(Phenix::Int32 init, Phenix::Int32 max);
+	virtual ~Semaphore();
 
-	void lock();	
-	void unlock();
+	void set();	
+	void wait();
+	bool wait(long milliseconds);
 
 private:
-	volatile long	_lock;	
+	HANDLE	_hnd;	
 };
 
 }
