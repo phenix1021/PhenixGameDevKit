@@ -23,9 +23,10 @@ namespace Concurrent
 	}
 
 	void ThreadPool::PooledThread::run()
-	{
+	{ //InterlockedExchange(shijian)
 		for (;;)
-		{
+		{//is_exit
+		
 			//ScopedLock<FastMutex> lock(_funcLock);
 			_idleTime = 0;
 			_func();
