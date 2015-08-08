@@ -18,7 +18,7 @@ namespace Phenix
 	{
 	public:
 		SharedPtr():m_obj(NULL), m_ref_count(new volatile LONG(0)){}		
-		SharedPtr(T* obj):m_obj(obj), m_ref_count(new volatile LONG(1)){}		
+		SharedPtr(T* obj):m_obj(obj), m_ref_count(new volatile LONG(1)){obj=NULL;}		
 
 		SharedPtr(SharedPtr& other)
 		{
@@ -56,22 +56,39 @@ namespace Phenix
 
 		SharedPtr& operator = (SharedPtr& other)
 		{
-			if (IsNull())
-			{
-				m_obj = other.m_obj;
-				m_ref_count = other.m_ref_count;
-				InterlockedIncrement(m_ref_count);
-			} 
-			else
+			if (!IsNull())
 			{
 				if (!InterlockedDecrement(m_ref_count))
 				{
 					Release();
-				}				
-				InterlockedIncrement(other.m_ref_count);
-				m_obj = other.m_obj;
-				m_ref_count = other.m_ref_count;
-			}			
+				}
+			} 
+			m_obj = other.m_obj;				
+			InterlockedIncrement(other.m_ref_count);
+			m_ref_count = other.m_ref_count;		
+			
+			return *this;
+		}
+
+		SharedPtr& operator = (T* obj)
+		{
+			if (m_obj == obj)
+			{
+				obj = NULL;
+				return *this;
+			}
+
+			if (!IsNull())
+			{
+				if (!InterlockedDecrement(m_ref_count))
+				{
+					Release();
+				}
+			} 
+
+			m_obj = obj;
+			InterlockedExchange(m_ref_count, obj?1:0);		
+			obj = NULL;
 			
 			return *this;
 		}

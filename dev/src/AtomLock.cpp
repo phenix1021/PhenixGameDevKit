@@ -13,6 +13,11 @@ namespace Concurrent
 		_lock = (long)UNLOCKED;
 	}
 
+	AtomLock::AtomLock( bool locked )
+	{
+		_lock = (long)locked;
+	}
+
 	AtomLock::~AtomLock()
 	{
 		

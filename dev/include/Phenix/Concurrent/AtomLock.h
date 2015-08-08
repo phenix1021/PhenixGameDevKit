@@ -25,8 +25,10 @@ class AtomLock
 		UNLOCKED = 0,
 		LOCKED
 	};
+
 public:
 	AtomLock();
+	AtomLock(bool locked);
 	virtual ~AtomLock();
 
 	void lock();	

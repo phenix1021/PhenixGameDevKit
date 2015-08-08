@@ -29,6 +29,7 @@ namespace Phenix
 	public:		
 		Function():m_func_impl(NULL){}		
 		Function(FunctionImplBase0<Ret>* func):m_func_impl(func){}
+		void reset(){m_func_impl = NULL;}
 
 		virtual ~Function(){}
 
