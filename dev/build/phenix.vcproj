@@ -328,6 +328,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Collection"
+			>
+			<File
+				RelativePath="..\src\RingBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Collection\RingBuffer.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\src\stdafx.cpp"
 			>

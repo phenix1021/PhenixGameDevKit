@@ -21,7 +21,7 @@ class Event
 	:private Noncopyable
 {
 public:
-	Event(bool auto_reset);
+	Event(bool auto_reset = true);
 	virtual ~Event();
 
 	void set();

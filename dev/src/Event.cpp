@@ -6,7 +6,7 @@ namespace Phenix
 namespace Concurrent
 {
 
-	Event::Event(bool auto_reset)
+	Event::Event(bool auto_reset/* = true*/)
 	{
 		_hnd = CreateEventW(NULL, !auto_reset, false, NULL);
 		if (!_hnd)
