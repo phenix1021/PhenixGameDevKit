@@ -9,6 +9,7 @@
 
 #include <Windows.h>
 #include <Phenix/Base/Noncopyable.h>
+#include <Phenix/Concurrent/Event.h>
 
 namespace Phenix
 {
@@ -22,8 +23,9 @@ class AtomLock
 {
 	enum
 	{
-		UNLOCKED = 0,
-		LOCKED
+		UNLOCKED	= 0,
+		LOCKED		= 1,
+		SPIN_DURATION	= 5	/*µ•Œª√Î*/
 	};
 
 public:
@@ -35,7 +37,9 @@ public:
 	void unlock();
 
 private:
-	volatile long	_lock;	
+	volatile long	_lock;
+	time_t			_spinStartTime;
+	Event			_lock2;
 };
 
 }

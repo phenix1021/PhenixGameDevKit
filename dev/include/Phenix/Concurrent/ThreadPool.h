@@ -21,6 +21,7 @@ namespace Concurrent
 	class ThreadPool
 		:private Phenix::Noncopyable
 	{
+		// 池内线程体
 		class PooledThread
 			:private Phenix::Noncopyable
 		{
