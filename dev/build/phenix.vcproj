@@ -276,6 +276,14 @@
 			Name="Concurrent"
 			>
 			<File
+				RelativePath="..\src\AtomCounter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Concurrent\AtomCounter.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\AtomLock.cpp"
 				>
 			</File>
@@ -297,6 +305,14 @@
 			</File>
 			<File
 				RelativePath="..\include\Phenix\Concurrent\FastMutex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\RWLock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Concurrent\RWLock.h"
 				>
 			</File>
 			<File
@@ -331,6 +347,22 @@
 		<Filter
 			Name="Collection"
 			>
+			<File
+				RelativePath="..\src\BitMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Collection\BitMap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\BloomFilter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Collection\BloomFilter.h"
+				>
+			</File>
 			<File
 				RelativePath="..\src\RingBuffer.cpp"
 				>

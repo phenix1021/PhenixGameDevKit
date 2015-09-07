@@ -101,7 +101,7 @@ namespace Concurrent
 
 	void Thread::cleanUp(std::vector<Thread*>& threads)
 	{
-		for (Phenix::Int32 i=0; i<threads.size(); ++i)
+		for (Phenix::UInt32 i=0; i<threads.size(); ++i)
 		{
 			threads[i]->cleanUp();
 		}
@@ -127,7 +127,7 @@ namespace Concurrent
 	{
 		HANDLE handles[MAXIMUM_WAIT_OBJECTS];
 		Phenix::Int32 cnt = 0;
-		for (Phenix::Int32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
+		for (Phenix::UInt32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
 		{
 			if (thread_list[i]->isNull())
 			{
@@ -178,7 +178,7 @@ namespace Concurrent
 	{
 		HANDLE handles[MAXIMUM_WAIT_OBJECTS];
 		Phenix::Int32 cnt = 0;
-		for (Phenix::Int32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
+		for (Phenix::UInt32 i=0; i<thread_list.size() && i<MAXIMUM_WAIT_OBJECTS; ++i)
 		{
 			if (thread_list[i]->isNull())
 			{

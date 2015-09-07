@@ -7,7 +7,6 @@
 #ifndef PHENIX_CONCURRENT_ATOM_LOCK_H
 #define PHENIX_CONCURRENT_ATOM_LOCK_H
 
-#include <Windows.h>
 #include <Phenix/Base/Noncopyable.h>
 #include <Phenix/Concurrent/Event.h>
 
