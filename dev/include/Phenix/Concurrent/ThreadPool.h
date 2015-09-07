@@ -40,7 +40,7 @@ namespace Concurrent
 			inline Thread&	getThread(){ return _thread; }
 			inline void		setIdleTime(time_t val);
 			inline time_t	getIdleTime();
-			inline bool		isIdle(){ return getIdleTime(); }
+			inline bool		isIdle(){ return getIdleTime() > 0; }
 
 		private:
 			Thread			_thread;

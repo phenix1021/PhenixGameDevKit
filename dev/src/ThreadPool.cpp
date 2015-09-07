@@ -140,7 +140,7 @@ namespace Concurrent
 
 	void ThreadPool::release()
 	{
-		for (Phenix::Int32 i=0; i<_pooledThreads.size(); ++i)
+		for (Phenix::UInt32 i=0; i<_pooledThreads.size(); ++i)
 		{
 			_pooledThreads[i]->release();
 		}
@@ -153,7 +153,7 @@ namespace Concurrent
 		std::vector<PooledThread*> idle_threads;
 		std::vector<PooledThread*> expire_threads;
 
-		for (Phenix::Int32 i=0; i<_pooledThreads.size(); ++i)
+		for (Phenix::UInt32 i=0; i<_pooledThreads.size(); ++i)
 		{
 			if (!_pooledThreads[i]->isIdle())
 			{
