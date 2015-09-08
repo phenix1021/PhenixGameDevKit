@@ -288,10 +288,10 @@ namespace ANN
 		out.clear();
 		for (Phenix::Int32 i=0; i<m_out_neuron_num; ++i)
 		{
-			out[i] = out[i];
+			out[i] = p_out[i];
 		}
-		delete p_in;
-		delete p_out;
+		delete [] p_in;
+		delete [] p_out;
 	}
 
 	void MLP::GetOutputs( double* in, double* out )
