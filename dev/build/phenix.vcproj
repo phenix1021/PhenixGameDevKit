@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\Phenix\Base\SingletonHolder.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\Phenix\Base\Types.h"
 				>
 			</File>

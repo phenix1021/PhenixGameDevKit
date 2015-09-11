@@ -69,18 +69,17 @@ namespace Collection
 		virtual ~RingBuffer();
 
 		bool push(T data);
-		bool pop(T& data);
-		void collect();		// 回收_buffers中空的buffer
+		bool pop(T& data);		
 
 	private:
-		std::list<Buffer*> _buffers;
+		std::list<Buffer*> _buffers;		
 		ObjectPool<T> _pool;
 	};
 
 	template<typename T>
 	Phenix::Collection::RingBuffer<T>::RingBuffer()
 	{
-		_buffers.insert(_pool.Create());
+		_buffers.push_back(_pool.Create());
 	}
 
 	template<typename T>
@@ -91,20 +90,25 @@ namespace Collection
 
 	template<typename T>
 	bool Phenix::Collection::RingBuffer<T>::push( T data )
-	{
-		std::list<Buffer*>::reverse_iterator iter = _buffers.begin();
-		if (iter->isFull())
+	{		
+		if (_buffers.rbegin()->isFull())
 		{
-			_buffers.insert(_pool.Create());
+			_buffers.push_back(_pool.Create());
 		}
+		return _buffers.rbegin()->push(data);
 	}
 
 	template<typename T>
 	bool Phenix::Collection::RingBuffer<T>::pop( T& data )
 	{
-		if (_buffers.empty())
+		if (!_buffers.begin()->empty())
 		{
-			return false;
+			return _buffers.begin()->pop();
+		}
+
+		if (*_buffers.begin() != *_buffers.rbegin())
+		{
+			_pool.Release(*_buffers.begin()); // 回收无用的buffer
 		}
 	}
 
