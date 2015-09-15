@@ -4,8 +4,8 @@
  * @author	phenix
  * @mark    
  ******************************************************************************/
-#ifndef PHENIX_CONCURRENT_RING_BUFFER_H
-#define PHENIX_CONCURRENT_RING_BUFFER_H
+#ifndef PHENIX_COLLECTION_RING_BUFFER_H
+#define PHENIX_COLLECTION_RING_BUFFER_H
 
 #include <Phenix/Memory/ObjectPool.h>
 

@@ -164,6 +164,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Hash.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Base\Hash.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\Phenix\Base\Noncopyable.h"
 				>
 			</File>
