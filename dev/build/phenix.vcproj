@@ -376,6 +376,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\Phenix\Collection\HashMap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Collection\HashSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Collection\HashTable.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\RingBuffer.cpp"
 				>
 			</File>

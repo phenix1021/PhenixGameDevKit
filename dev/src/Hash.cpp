@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include <Phenix/base/Hash.h>
+#include <Phenix/Collection/HashTable.h>
+
 
 namespace Phenix
 {
