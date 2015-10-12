@@ -96,9 +96,8 @@ namespace Collection
 				{					
 					++_bucketIt;
 					while (_bucketIt == _vecIt->end())
-					{
-						++_vecIt;
-						if (_vecIt != _endIt)
+					{						
+						if (++_vecIt != _endIt)
 							_bucketIt = _vecIt->begin();
 					}
 				}
@@ -238,27 +237,71 @@ namespace Collection
 
 		ConstIterator	begin() const
 		{
-
+			BucketVecIterator begin_it(_buckets.begin());
+			BucketVecIterator end_it(_buckets.end());
+			BucketVecIterator iter = begin_it;
+			while(iter != end_it && iter->empty())
+			{
+				++iter;
+			}
+			if (iter == end_it)
+			{
+				return end();
+			}
+			else
+			{
+				return ConstIterator(begin_it, end_it, iter->begin());
+			}
 		}
 
 		Iterator	begin()
 		{
-
+			BucketVecIterator vec_it(_buckets.begin());
+			BucketVecIterator end_it(_buckets.end());
+			BucketVecIterator iter = vec_it;
+			while(iter != end_it && iter->empty())
+			{
+				++iter;
+			}
+			if (iter == end_it)
+			{
+				return end();
+			}
+			else
+			{
+				return Iterator(vec_it, end_it, iter->begin());
+			}
 		}
 
 		ConstIterator	end() const
 		{
-
+			return ConstIterator(_buckets.end(), _buckets.end(), _buckets.begin()->end() /*此处可以是任何值*/);
 		}
 
 		Iterator	end()
 		{
-
+			return Iterator(_buckets.end(), _buckets.end(), _buckets.begin()->end() /*此处可以是任何值*/);
 		}
 
 		std::pair<Iterator, bool> insert(const Value& value)
 		{
-
+			std::size_t hashAddr = getHashAddress(value);
+			BucketVecIterator iter(_buckets.begin()+hashAddr);
+			BucketIterator bucketIt = std::find(iter.begin(), iter.end(), value); 
+			if (bucketIt != iter.end())
+			{
+				return std::make_pair(Iterator(iter, iter->end(), bucketIt), false);
+			} 
+			else
+			{
+				slice();
+				hashAddr = getHashAddress(value);
+				iter = _buckets.begin()+hashAddr;
+				bucketIt = iter->insert(iter->end(), value);				
+				++_size;
+				
+				return std::make_pair(Iterator(iter, _buckets.end(), bucketIt), true);
+			}
 		}
 
 	private:
