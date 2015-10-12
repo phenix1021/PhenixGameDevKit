@@ -37,6 +37,7 @@ namespace Collection
 		class ConstIterator
 			:public std::iterator<std::forward_iterator_tag, Value>
 		{
+			friend class HashTable;
 		public:
 			ConstIterator(){}
 			ConstIterator(const ConstIterator& o)
@@ -95,7 +96,7 @@ namespace Collection
 				if (_vecIt != _endIt)
 				{					
 					++_bucketIt;
-					while (_bucketIt == _vecIt->end())
+					while (_vecIt != _endIt && _bucketIt == _vecIt->end())
 					{						
 						if (++_vecIt != _endIt)
 							_bucketIt = _vecIt->begin();
@@ -120,6 +121,7 @@ namespace Collection
 		class Iterator
 			:public ConstIterator
 		{
+			friend class HashTable;
 		public:
 			Iterator(){}
 			Iterator(const Iterator& o)
@@ -212,12 +214,25 @@ namespace Collection
 
 		void swap(const HashTable& o)
 		{
+			using std::swap;
+			swap(_buckets, o._buckets);
+			swap(_size, o._size);
+			swap(_front, o._front);
+			swap(_sliceIdx, o._sliceIdx);
+		}
 
+		void clear()
+		{			
+			HashTable tmp;
+			swap(tmp);	
 		}
 
 		HashTable& assign(const HashTable& o)
 		{
-
+			_buckets = o._buckets;
+			_size = o._size;
+			_front = o._front;
+			_sliceIdx = o._sliceIdx;
 		}
 
 		HashTable& operator = (const HashTable& o)
@@ -227,12 +242,28 @@ namespace Collection
 
 		ConstIterator	find(const Value& value) const
 		{
-
+			std::size_t hashAddr = _hash(value);
+			BucketVecIterator vecIt(_buckets.begin() + hashAddr);
+			assert(vecIt != _buckets.end());			
+			BucketIterator bucketIt(std::find(vecIt->begin(), vecIt->end(), value));
+			if (bucketIt == vecIt->end())
+			{
+				return end();
+			}
+			return ConstIterator(vecIt, _buckets.end(), bucketIt);
 		}
 		
 		Iterator		find(const Value& value)
 		{
-
+			std::size_t hashAddr = _hash(value);
+			BucketVecIterator vecIt(_buckets.begin() + hashAddr);
+			assert(vecIt != _buckets.end());			
+			BucketIterator bucketIt(std::find(vecIt->begin(), vecIt->end(), value));
+			if (bucketIt == vecIt->end())
+			{
+				return end();
+			}
+			return Iterator(vecIt, _buckets.end(), bucketIt);
 		}
 
 		ConstIterator	begin() const
@@ -304,6 +335,23 @@ namespace Collection
 			}
 		}
 
+		void erase(const Value& value)
+		{
+			Iterator iter = find(value);
+			erase(iter);
+		}
+
+		void erase(Iterator& iter)
+		{
+			if (iter == end())
+			{
+				return;
+			}
+			iter._bucketIt->erase(iter._bucketIt);
+			--_size;
+			merge();
+		}
+
 	private:
 		std::size_t getHashAddress(const Value& value) const
 		{
@@ -322,6 +370,13 @@ namespace Collection
 
 		void slice()
 		{
+			if (_sliceIdx == _front)
+			{
+				_sliceIdx = 0;
+				_front <<= 1;
+				_buckets.reserve(_front<<1);
+			}
+
 			using std::swap;
 			Bucket tmp;
 			_buckets.push_back(tmp);
@@ -332,13 +387,7 @@ namespace Collection
 			{
 				std::size_t addr = getHashAddress(*iter);
 				_buckets[addr].push_back(*iter);
-			}
-			if (_sliceIdx == _front)
-			{
-				_sliceIdx = 0;
-				_front <<= 1;
-				_buckets.reserve(_front<<1);
-			}
+			}			
 		}
 
 		void merge()
@@ -355,6 +404,21 @@ namespace Collection
 				_buckets[getHashAddress(*iter)].push_back(*iter);
 			}
 			_buckets.pop_back();
+		}
+
+		std::size_t size()
+		{
+			return _size;
+		}
+
+		bool empty()
+		{
+			return size() == 0;
+		}
+
+		std::size_t bucketSize()
+		{
+			return _buckets.size();
 		}
 
 	private:		
