@@ -187,7 +187,7 @@ namespace Collection
 		};
 
 	public:
-		HashTable(Phenix::Int32 bucketReserveSize = 64)
+		HashTable(std::size_t bucketReserveSize = 64)
 			:_front(1),
 			_sliceIdx(0),
 			_size(0)
