@@ -59,13 +59,13 @@ namespace Collection
 
 		HashMap& operator = (const HashMap& o)
 		{
-			this->assign(0);
+			this->assign(o);
+			return *this;
 		}
 
-		HashMap& assign(const HashMap& o)
+		void assign(const HashMap& o)
 		{
-			_table.assign(o._table);
-			return *this;
+			_table.assign(o._table);			
 		}
 
 		void swap(HashMap& o)

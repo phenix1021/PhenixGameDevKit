@@ -227,7 +227,7 @@ namespace Collection
 			swap(tmp);	
 		}
 
-		HashTable& assign(const HashTable& o)
+		void assign(const HashTable& o)
 		{
 			_buckets = o._buckets;
 			_size = o._size;
@@ -237,7 +237,8 @@ namespace Collection
 
 		HashTable& operator = (const HashTable& o)
 		{
-			return assign(o);
+			assign(o);
+			return *this;
 		}
 
 		ConstIterator	find(const Value& value) const
