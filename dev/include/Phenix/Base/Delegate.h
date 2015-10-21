@@ -12,85 +12,85 @@
 namespace Phenix
 {
 
-	// Function基类模板
-	template<typename Signature>
-	class Function;
+// Function基类模板
+template<typename Signature>
+class Function;
 
-	// ----------------------无参数---------------------
-	// 前置引用
-	template<typename Ret> class FunctionImplBase0;	
+// ----------------------无参数---------------------
+// 前置引用
+template<typename Ret> class FunctionImplBase0;	
 
-	// Function特化类模板
-	template<typename Ret>
-	class Function<Ret(void)>
-	{		
-		typedef SharedPtr<FunctionImplBase0<Ret>>	FunctionImplBasePtr0;
+// Function特化类模板
+template<typename Ret>
+class Function<Ret(void)>
+{		
+	typedef SharedPtr<FunctionImplBase0<Ret>>	FunctionImplBasePtr0;
 
-	public:		
-		Function():m_func_impl(NULL){}		
-		Function(FunctionImplBase0<Ret>* func):m_func_impl(func){}
-		void reset(){m_func_impl = NULL;}
+public:		
+	Function():m_func_impl(NULL){}		
+	Function(FunctionImplBase0<Ret>* func):m_func_impl(func){}
+	void reset(){m_func_impl = NULL;}
 
-		virtual ~Function(){}
+	virtual ~Function(){}
 
-		Ret operator () (void){return (*m_func_impl)();}
+	Ret operator () (void){return (*m_func_impl)();}
 
-	private:
-		FunctionImplBasePtr0 m_func_impl;
-	};
+private:
+	FunctionImplBasePtr0 m_func_impl;
+};
 
-	template<typename Ret>
-	class FunctionImplBase0
-	{		
-	public:
-		virtual ~FunctionImplBase0(){}
-		virtual Ret operator () (void) = 0;
-	};
+template<typename Ret>
+class FunctionImplBase0
+{		
+public:
+	virtual ~FunctionImplBase0(){}
+	virtual Ret operator () (void) = 0;
+};
 
-	// for 全局函数、静态函数
-	template<typename Ret>
-	class FunctionImplFunc0
-		:public FunctionImplBase0<Ret>
-	{		
-		typedef Ret(*CallBack)(void);
-	public:
-		FunctionImplFunc0(CallBack& call_back):m_call_back(call_back){}
-		Ret operator () (void){return m_call_back();}
-	private:
-		CallBack m_call_back;
-	};
+// for 全局函数、静态函数
+template<typename Ret>
+class FunctionImplFunc0
+	:public FunctionImplBase0<Ret>
+{		
+	typedef Ret(*CallBack)(void);
+public:
+	FunctionImplFunc0(CallBack& call_back):m_call_back(call_back){}
+	Ret operator () (void){return m_call_back();}
+private:
+	CallBack m_call_back;
+};
 
-	// for 类成员函数
-	template<typename Ret, typename Cls, typename Obj>
-	class FunctionImplMethod0
-		:public FunctionImplBase0<Ret>
-	{		
-		typedef Ret(Cls::*CallBack)(void);
-	public:
-		FunctionImplMethod0(CallBack& call_back, Obj obj)
-			:m_obj(obj), m_call_back(call_back){}
-		Ret operator () (void)
-		{
-			return (&*m_obj->*m_call_back)();	// 为了支持智能指针才写成&*m_obj，否则即使SharedPtr重载了->也会报错
-		}
-	private:
-		Obj		 m_obj;
-		CallBack m_call_back;
-	};
-
-	template<typename Ret>
-	//FunctionImplFunc0<Ret>* Bind(Ret(*CallBack)(void))
-	Function<Ret(void)> Bind(Ret(*CallBack)(void))
+// for 类成员函数
+template<typename Ret, typename Cls, typename Obj>
+class FunctionImplMethod0
+	:public FunctionImplBase0<Ret>
+{		
+	typedef Ret(Cls::*CallBack)(void);
+public:
+	FunctionImplMethod0(CallBack& call_back, Obj obj)
+		:m_obj(obj), m_call_back(call_back){}
+	Ret operator () (void)
 	{
-		return new FunctionImplFunc0<Ret>(CallBack);
+		return (&*m_obj->*m_call_back)();	// 为了支持智能指针才写成&*m_obj，否则即使SharedPtr重载了->也会报错
 	}
+private:
+	Obj		 m_obj;
+	CallBack m_call_back;
+};
 
-	template<typename Ret, typename Cls, typename Obj>
-	//FunctionImplMethod0<Ret, Cls, Obj>* Bind(Ret(Cls::*CallBack)(void), Obj obj)
-	Function<Ret(void)> Bind(Ret(Cls::*CallBack)(void), Obj obj)
-	{
-		return new FunctionImplMethod0<Ret, Cls, Obj>(CallBack, obj);
-	}
+template<typename Ret>
+//FunctionImplFunc0<Ret>* Bind(Ret(*CallBack)(void))
+Function<Ret(void)> Bind(Ret(*CallBack)(void))
+{
+	return new FunctionImplFunc0<Ret>(CallBack);
+}
+
+template<typename Ret, typename Cls, typename Obj>
+//FunctionImplMethod0<Ret, Cls, Obj>* Bind(Ret(Cls::*CallBack)(void), Obj obj)
+Function<Ret(void)> Bind(Ret(Cls::*CallBack)(void), Obj obj)
+{
+	return new FunctionImplMethod0<Ret, Cls, Obj>(CallBack, obj);
+}
 
 	// ----------------------1~10个参数---------------------
 #define SUPPORT_FUNC_PARAM_COUNT_MAX(N) SUPPORT_FUNC_PARAM_COUNT_MAX_##N

@@ -6,33 +6,33 @@ namespace Phenix
 namespace Concurrent
 {
 
-	FastMutex::FastMutex()
+FastMutex::FastMutex()
+{
+	if (!InitializeCriticalSectionAndSpinCount(&_cs, 4000))		
 	{
-		if (!InitializeCriticalSectionAndSpinCount(&_cs, 4000))		
-		{
-			throw;
-		}
+		throw;
 	}
+}
 
-	FastMutex::~FastMutex()
-	{
-		DeleteCriticalSection(&_cs);
-	}
+FastMutex::~FastMutex()
+{
+	DeleteCriticalSection(&_cs);
+}
 
-	void FastMutex::lock()
-	{
-		EnterCriticalSection(&_cs);
-	}
+void FastMutex::lock()
+{
+	EnterCriticalSection(&_cs);
+}
 
-	bool FastMutex::tryLock()
-	{
-		return TryEnterCriticalSection(&_cs);
-	}
+bool FastMutex::tryLock()
+{
+	return TryEnterCriticalSection(&_cs);
+}
 
-	void FastMutex::unlock()
-	{
-		LeaveCriticalSection(&_cs);
-	}
+void FastMutex::unlock()
+{
+	LeaveCriticalSection(&_cs);
+}
 
 }
 }

@@ -164,6 +164,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\Phenix\Base\Exception.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Hash.cpp"
 				>
 			</File>

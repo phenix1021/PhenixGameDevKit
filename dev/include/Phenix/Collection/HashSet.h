@@ -15,94 +15,94 @@ namespace Phenix
 namespace Collection
 {
 
-	template<typename Value, typename HashFunc = HashCode<Value>>
-	class HashSet
+template<typename Value, typename HashFunc = HashCode<Value>>
+class HashSet
+{
+public:
+	typedef HashTable<Value, HashFunc>::Iterator		Iterator;
+	typedef HashTable<Value, HashFunc>::ConstIterator	ConstIterator;
+
+	HashSet(std::size_t bucketReserveSize):_table(bucketReserveSize){}
+
+	void swap(HashSet& o)
 	{
-	public:
-		typedef HashTable<Value, HashFunc>::Iterator		Iterator;
-		typedef HashTable<Value, HashFunc>::ConstIterator	ConstIterator;
+		_table.swap(o._table);
+	}
 
-		HashSet(std::size_t bucketReserveSize):_table(bucketReserveSize){}
+	void assign(const HashSet& o)
+	{
+		_table.assign(o._table);
+	}
 
-		void swap(HashSet& o)
-		{
-			_table.swap(o._table);
-		}
+	HashSet& operator = (const HashSet& o)
+	{
+		assign(o);
+		return *this;
+	}
 
-		void assign(const HashSet& o)
-		{
-			_table.assign(o._table);
-		}
+	Iterator begin()
+	{
+		return _table.begin();
+	}
 
-		HashSet& operator = (const HashSet& o)
-		{
-			assign(o);
-			return *this;
-		}
+	ConstIterator begin() const;
+	{
+		return _table.begin();
+	}
+	
+	Iterator end()
+	{
+		return _table.end();
+	}
 
-		Iterator begin()
-		{
-			return _table.begin();
-		}
+	ConstIterator end() const;
+	{
+		return _table.end();
+	}
 
-		ConstIterator begin() const;
-		{
-			return _table.begin();
-		}
-		
-		Iterator end()
-		{
-			return _table.end();
-		}
+	Iterator find(const Value& value)
+	{
+		return _table.find(value);
+	}
 
-		ConstIterator end() const;
-		{
-			return _table.end();
-		}
+	ConstIterator find(const Value& value) const
+	{
+		return _table.find(value);
+	}
 
-		Iterator find(const Value& value)
-		{
-			return _table.find(value);
-		}
+	std::size_t size()
+	{
+		return _table.size();
+	}
 
-		ConstIterator find(const Value& value) const
-		{
-			return _table.find(value);
-		}
+	bool empty()
+	{
+		return _table.empty();
+	}
 
-		std::size_t size()
-		{
-			return _table.size();
-		}
+	void clear()
+	{
+		_table.clear();
+	}
 
-		bool empty()
-		{
-			return _table.empty();
-		}
+	std::pair<Iterator, bool> insert(const Value& value)
+	{
+		return _table.insert(value);
+	}
 
-		void clear()
-		{
-			_table.clear();
-		}
+	void erase(const Value& value)
+	{
+		_table.erase(value);
+	}
 
-		std::pair<Iterator, bool> insert(const Value& value)
-		{
-			return _table.insert(value);
-		}
+	void erase(Iterator iter)
+	{
+		_table.erase(iter);
+	}
 
-		void erase(const Value& value)
-		{
-			_table.erase(value);
-		}
-
-		void erase(Iterator iter)
-		{
-			_table.erase(iter);
-		}
-
-	private:
-		HashTable<Value, HashFunc>	_table;
-	};	
+private:
+	HashTable<Value, HashFunc>	_table;
+};	
 
 }
 }

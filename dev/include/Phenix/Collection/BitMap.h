@@ -13,45 +13,46 @@ namespace Phenix
 {
 namespace Collection
 {
-	template<std::size_t BYTES>
-	class BitMap
+
+template<std::size_t BYTES>
+class BitMap
+{
+public:
+	BitMap(){}
+	virtual ~BitMap(){}
+
+	inline bool add(std::size_t val)
 	{
-	public:
-		BitMap(){}
-		virtual ~BitMap(){}
-
-		inline bool add(std::size_t val)
+		if (val > BYTES<<3)
 		{
-			if (val > BYTES<<3)
-			{
-				return false;
-			}
-			_bits.set(val);
-			return true;
+			return false;
 		}
+		_bits.set(val);
+		return true;
+	}
 
-		inline bool remove(std::size_t val)
+	inline bool remove(std::size_t val)
+	{
+		if (val > BYTES<<3)
 		{
-			if (val > BYTES<<3)
-			{
-				return false;
-			}
-			_bits.reset(val);
-			return true;
+			return false;
 		}
+		_bits.reset(val);
+		return true;
+	}
 
-		inline bool has(std::size_t val)
+	inline bool has(std::size_t val)
+	{
+		if (val > BYTES<<3)
 		{
-			if (val > BYTES<<3)
-			{
-				return false;
-			}			
-			return _bits.test(val);
-		}
+			return false;
+		}			
+		return _bits.test(val);
+	}
 
-	private:
-		std::bitset<BYTES<<3> _bits;
-	};
+private:
+	std::bitset<BYTES<<3> _bits;
+};
 }
 }
 

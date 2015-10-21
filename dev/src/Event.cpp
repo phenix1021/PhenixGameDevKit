@@ -6,62 +6,62 @@ namespace Phenix
 namespace Concurrent
 {
 
-	Event::Event(bool auto_reset/* = true*/)
+Event::Event(bool auto_reset/* = true*/)
+{
+	_hnd = CreateEventW(NULL, !auto_reset, false, NULL);
+	if (!_hnd)
 	{
-		_hnd = CreateEventW(NULL, !auto_reset, false, NULL);
-		if (!_hnd)
-		{
-			throw;
-		}
+		throw;
 	}
+}
 
-	Event::~Event()
-	{
-		CloseHandle(_hnd);
-	}
+Event::~Event()
+{
+	CloseHandle(_hnd);
+}
 
-	void Event::set()
+void Event::set()
+{
+	if (!SetEvent(_hnd))
 	{
-		if (!SetEvent(_hnd))
-		{
-			throw;
-		}		
-	}
+		throw;
+	}		
+}
 
-	void Event::reset()
+void Event::reset()
+{
+	if (!ResetEvent(_hnd))
 	{
-		if (!ResetEvent(_hnd))
-		{
-			throw;
-		}		
-	}
+		throw;
+	}		
+}
 
-	void Event::wait()
+void Event::wait()
+{
+	if (WAIT_OBJECT_0 != WaitForSingleObject(_hnd, INFINITE))
 	{
-		if (WAIT_OBJECT_0 != WaitForSingleObject(_hnd, INFINITE))
-		{
-			throw;
-		}
-			
+		throw;
 	}
+		
+}
 
-	bool Event::wait( long milliseconds )
+bool Event::wait( long milliseconds )
+{
+	if (!milliseconds)
 	{
-		if (!milliseconds)
-		{
-			wait();
-			return true;
-		}
-		switch (WaitForSingleObject(_hnd, milliseconds))
-		{
-		case WAIT_TIMEOUT:
-			return false;
-		case WAIT_OBJECT_0:
-			return true;
-		default:
-			throw;
-		}
+		wait();
+		return true;
 	}
+	switch (WaitForSingleObject(_hnd, milliseconds))
+	{
+	case WAIT_TIMEOUT:
+		return false;
+	case WAIT_OBJECT_0:
+		return true;
+	default:
+		throw;
+	}
+}
 
 }
 }

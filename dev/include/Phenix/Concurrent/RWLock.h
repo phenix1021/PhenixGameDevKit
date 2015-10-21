@@ -19,27 +19,27 @@ namespace Phenix
 namespace Concurrent
 {	
 
-	class RWLock
-		:private Phenix::Noncopyable
-	{
-	public:	
-		RWLock(Phenix::Int32 readCntMax = 0); // 0表示不限制
-		virtual ~RWLock();		
+class RWLock
+	:private Phenix::Noncopyable
+{
+public:	
+	RWLock(Phenix::Int32 readCntMax = 0); // 0表示不限制
+	virtual ~RWLock();		
 
-		void readLock();	
-		void readUnlock();
-		void writeLock();
-		void writeUnlock();
+	void readLock();	
+	void readUnlock();
+	void writeLock();
+	void writeUnlock();
 
-	private:
+private:
 
-	private:
-		FastMutex	_readLock;			// 读写竞争
-		FastMutex	_readMaxLock;		// 读读竞争
-		FastMutex	_writeLock;			// 写写竞争，读写竞争
-		AtomCounter	_readCnt;			// 会和“写锁”竞争_readLock的读的当前数量（不包括写时被拦截的试图读）
-		Phenix::Int32 _readCntMax;		// 会和“写锁”竞争_readLock的读的最大数量（不包括写时被拦截的试图读）
-	};	
+private:
+	FastMutex	_readLock;			// 读写竞争
+	FastMutex	_readMaxLock;		// 读读竞争
+	FastMutex	_writeLock;			// 写写竞争，读写竞争
+	AtomCounter	_readCnt;			// 会和“写锁”竞争_readLock的读的当前数量（不包括写时被拦截的试图读）
+	Phenix::Int32 _readCntMax;		// 会和“写锁”竞争_readLock的读的最大数量（不包括写时被拦截的试图读）
+};	
 
 
 } // end namespace Concurrent

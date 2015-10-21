@@ -11,17 +11,17 @@
 
 namespace Phenix
 {
-	class Parser
+class Parser
+{
+public:
+	template<typename T>
+	inline static Phenix::String ToString(const T& arg)
 	{
-	public:
-		template<typename T>
-		inline static Phenix::String ToString(const T& arg)
-		{
-			std::ostringstream buffer;
-			buffer << arg;
-			return buffer.str();		
-		}
-	};
+		std::ostringstream buffer;
+		buffer << arg;
+		return buffer.str();		
+	}
+};
 
 } // end namespace Phenix
 

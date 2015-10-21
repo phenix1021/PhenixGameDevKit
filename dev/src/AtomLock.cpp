@@ -9,43 +9,43 @@ namespace Phenix
 namespace Concurrent
 {
 
-	AtomLock::AtomLock()		
-	{
-		_lock = (long)UNLOCKED;
-	}
+AtomLock::AtomLock()		
+{
+	_lock = (long)UNLOCKED;
+}
 
-	AtomLock::AtomLock( bool locked )
-	{
-		_lock = (long)locked;
-	}
+AtomLock::AtomLock( bool locked )
+{
+	_lock = (long)locked;
+}
 
-	AtomLock::~AtomLock()
-	{
-		
-	}
+AtomLock::~AtomLock()
+{
+	
+}
 
-	void AtomLock::lock()
+void AtomLock::lock()
+{
+	_spinStartTime = std::time(NULL);
+	while (InterlockedExchange(&_lock, LOCKED) == LOCKED)
 	{
-		_spinStartTime = std::time(NULL);
-		while (InterlockedExchange(&_lock, LOCKED) == LOCKED)
+		if (std::time(NULL) - _spinStartTime > SPIN_DURATION)
 		{
-			if (std::time(NULL) - _spinStartTime > SPIN_DURATION)
-			{
-				_spinStartTime = 0;
-				_lock2.wait();
-			} 
-			else
-			{
-				Thread::sleep(0);
-			}			
-		}
+			_spinStartTime = 0;
+			_lock2.wait();
+		} 
+		else
+		{
+			Thread::sleep(0);
+		}			
 	}
+}
 
-	void AtomLock::unlock()
-	{
-		InterlockedExchange(&_lock, UNLOCKED);
-		_lock2.set();
-	}
+void AtomLock::unlock()
+{
+	InterlockedExchange(&_lock, UNLOCKED);
+	_lock2.set();
+}
 
 }
 }

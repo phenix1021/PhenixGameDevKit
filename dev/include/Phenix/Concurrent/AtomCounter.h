@@ -12,23 +12,23 @@ namespace Phenix
 namespace Concurrent
 {	
 
-	class AtomCounter		
-	{
-	public:	
-		AtomCounter();
-		AtomCounter(Phenix::Int32 val);
-		virtual ~AtomCounter();		
+class AtomCounter		
+{
+public:	
+	AtomCounter();
+	AtomCounter(Phenix::Int32 val);
+	virtual ~AtomCounter();		
 
-		inline AtomCounter& operator = (Phenix::Int32 val);
+	inline AtomCounter& operator = (Phenix::Int32 val);
 
-		inline Phenix::Int32 value();
-		inline Phenix::Int32 inc();
-		inline Phenix::Int32 dec();
-		inline Phenix::Int32 add(Phenix::Int32 delta);
+	inline Phenix::Int32 value();
+	inline Phenix::Int32 inc();
+	inline Phenix::Int32 dec();
+	inline Phenix::Int32 add(Phenix::Int32 delta);
 
-	private:
-		volatile long _val; 
-	};	
+private:
+	volatile long _val; 
+};	
 
 
 } // end namespace Concurrent
