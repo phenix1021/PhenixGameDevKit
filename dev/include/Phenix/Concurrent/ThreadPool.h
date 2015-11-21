@@ -54,7 +54,7 @@ class ThreadPool
 	};
 
 public:	
-	ThreadPool(Phenix::UInt8 init_capacity = 4, Phenix::UInt8 max_capacity = 8, 
+	ThreadPool(Phenix::UInt8 init_capacity = 2, /*Phenix::UInt8 max_capacity, */
 		Phenix::Int32 expire_duration = 30);
 	virtual ~ThreadPool();		
 

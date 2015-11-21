@@ -4,8 +4,8 @@
  * @author	phenix
  * @mark
  ******************************************************************************/
-#ifndef PHENIX_TYPES_H
-#define PHENIX_TYPES_H
+#ifndef PHENIX_EXCEPTION_H
+#define PHENIX_EXCEPTION_H
 
 #include <string>
 
@@ -44,18 +44,19 @@ private:
 	Phenix::String _msg;
 };
 
+
 #define DERIVE_EXCEPTION(DERIVE_CLASS, BASE_CLASS, WHAT)		\
 class DERIVE_CLASS												\
 	:public BASE_CLASS											\
 {																\
 public:															\
 	DERIVE_CLASS(){}											\
-	DERIVE_CLASS(const Phenix::String& msg):BASE_CLASS(msg){}	\											
+	DERIVE_CLASS(const Phenix::String& msg):BASE_CLASS(msg){}	\
 	const char* what() const throw()							\
 	{															\
 		return WHAT;											\
 	}															\
-}
+};
 
 DERIVE_EXCEPTION(LogicException, Exception, "Logic exception")
 DERIVE_EXCEPTION(AssertionViolationException, LogicException, "Assertion violation")

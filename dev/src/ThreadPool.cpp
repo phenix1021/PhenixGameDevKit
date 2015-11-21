@@ -70,14 +70,17 @@ void ThreadPool::PooledThread::activate()
 }
 
 
-ThreadPool::ThreadPool( Phenix::UInt8 initCapacity /*= 4*/, Phenix::UInt8 maxCapacity /*= 8*/,
+ThreadPool::ThreadPool( Phenix::UInt8 initCapacity /*= 2*/,/* Phenix::UInt8 maxCapacity,*/
 	Phenix::Int32 expire_duration/* = 30*/ )
-	:_initCapacity(initCapacity), _maxCapacity(maxCapacity), _expireDuration(expire_duration)
+	:_initCapacity(initCapacity), /*_maxCapacity(maxCapacity),*/ _expireDuration(expire_duration)
 {
 	if (_initCapacity > _maxCapacity)
 	{
 		throw;
 	}
+	SYSTEM_INFO sys_info;
+	GetSystemInfo(&sys_info);
+	_maxCapacity = (sys_info.dwNumberOfProcessors << 1);	
 	for (Phenix::UInt8 i=0; i<_initCapacity; ++i)
 	{
 		_pooledThreads.push_back(new PooledThread);

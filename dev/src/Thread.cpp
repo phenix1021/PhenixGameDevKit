@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <Phenix/Concurrent/Thread.h>
 #include <Phenix/Base/Parser.h>
+#include <Phenix/Base/BugCheck.h>
 
 namespace Phenix
 {
@@ -10,7 +11,9 @@ namespace Concurrent
 
 DWORD WINAPI Thread::entry( void* thread )
 {
-	reinterpret_cast<Thread*>(thread)->_func();
+	BEGIN_SEH
+	reinterpret_cast<Thread*>(thread)->_func();	
+	END_SEH("")
 	return 0;
 }
 
