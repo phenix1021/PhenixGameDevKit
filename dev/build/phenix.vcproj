@@ -408,6 +408,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Net"
+			>
+			<File
+				RelativePath="..\src\IOCPObj.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Net\IOCPObj.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\src\stdafx.cpp"
 			>

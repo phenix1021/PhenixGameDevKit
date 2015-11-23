@@ -80,7 +80,7 @@ ThreadPool::ThreadPool( Phenix::UInt8 initCapacity /*= 2*/,/* Phenix::UInt8 maxC
 	}
 	SYSTEM_INFO sys_info;
 	GetSystemInfo(&sys_info);
-	_maxCapacity = (sys_info.dwNumberOfProcessors << 1);	
+	_maxCapacity = Phenix::UInt8(sys_info.dwNumberOfProcessors << 1);	
 	for (Phenix::UInt8 i=0; i<_initCapacity; ++i)
 	{
 		_pooledThreads.push_back(new PooledThread);

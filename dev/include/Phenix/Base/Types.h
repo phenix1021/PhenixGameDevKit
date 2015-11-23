@@ -12,6 +12,8 @@
 namespace Phenix
 {
 
+#define IGNORED_VAL				0
+
 typedef signed char				Int8;
 typedef unsigned char			UInt8;
 typedef signed short			Int16;
