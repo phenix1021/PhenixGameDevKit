@@ -33,13 +33,13 @@ bool IOCPObj::Bind( HANDLE olObjHnd, void* olObjParam )
 	return CreateIoCompletionPort(olObjHnd, _hnd, (ULONG_PTR)olObjParam, IGNORED_VAL);	
 }
 
-bool IOCPObj::CreateAndBind( Phenix::UInt8 numberOfConcurrentThreads, HANDLE overlappedObj, void* overlappedObjParam )
+bool IOCPObj::CreateAndBind( Phenix::UInt8 numberOfConcurrentThreads, HANDLE olObjHnd, void* olObjParam )
 {
 	if (_hnd || !olObjHnd)
 	{
 		return false;
 	}
-	_hnd = CreateIoCompletionPort(olObjHnd, NULL, (ULONG_PTR)olObjParam, IGNORED_VAL, numberOfConcurrentThreads);	
+	_hnd = CreateIoCompletionPort(olObjHnd, NULL, (ULONG_PTR)olObjParam, numberOfConcurrentThreads);	
 	return true;
 }
 

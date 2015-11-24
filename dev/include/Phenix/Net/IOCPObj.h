@@ -21,8 +21,8 @@ public:
 	virtual ~IOCPObj();
 
 	bool Create(Phenix::UInt8 numberOfConcurrentThreads);
-	bool Bind(HANDLE overlappedObj, void* overlappedObjParam);
-	bool CreateAndBind(Phenix::UInt8 numberOfConcurrentThreads, HANDLE overlappedObj, void* overlappedObjParam);
+	bool Bind(HANDLE olObjHnd, void* olObjParam);
+	bool CreateAndBind(Phenix::UInt8 numberOfConcurrentThreads, HANDLE olObjHnd, void* olObjParam);
 	bool GetIOStatus();
 	bool SetIOStatus();
 
