@@ -4,8 +4,8 @@
  * @author	phenix
  * @mark
  ******************************************************************************/
-#ifndef PHENIX_NET_IOCPOBJ_H
-#define PHENIX_NET_IOCPOBJ_H
+#ifndef PHENIX_NET_IOCP_OBJECT_H
+#define PHENIX_NET_IOCP_OBJECT_H
 
 #include <Windows.h>
 
@@ -14,11 +14,11 @@ namespace Phenix
 namespace Net
 {
 
-class IOCPObj
+class IOCPObject
 {
 public:
-	IOCPObj():_hnd(NULL){}
-	virtual ~IOCPObj();
+	IOCPObject():_hnd(NULL){}
+	virtual ~IOCPObject();
 
 	bool Create(Phenix::UInt8 numberOfConcurrentThreads);
 	bool Bind(HANDLE olObjHnd, void* olObjParam);

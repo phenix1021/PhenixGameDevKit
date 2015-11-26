@@ -412,11 +412,11 @@
 			Name="Net"
 			>
 			<File
-				RelativePath="..\src\IOCPObj.cpp"
+				RelativePath="..\src\IOCPObject.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\include\Phenix\Net\IOCPObj.h"
+				RelativePath="..\include\Phenix\Net\IOCPObject.h"
 				>
 			</File>
 		</Filter>

@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include <Phenix/Net/IOCPObj.h>
+#include <Phenix/Net/IOCPObject.h>
 
 namespace Phenix
 {
 namespace Net
 {
 
-IOCPObj::~IOCPObj()
+IOCPObject::~IOCPObject()
 {
 	if (!_hnd)
 	{
@@ -14,7 +14,7 @@ IOCPObj::~IOCPObj()
 	}	
 }
 
-bool IOCPObj::Create( Phenix::UInt8 numberOfConcurrentThreads )
+bool IOCPObject::Create( Phenix::UInt8 numberOfConcurrentThreads )
 {
 	if (_hnd)
 	{
@@ -24,7 +24,7 @@ bool IOCPObj::Create( Phenix::UInt8 numberOfConcurrentThreads )
 	return _hnd;
 }
 
-bool IOCPObj::Bind( HANDLE olObjHnd, void* olObjParam )
+bool IOCPObject::Bind( HANDLE olObjHnd, void* olObjParam )
 {
 	if (!_hnd || !olObjHnd)
 	{
@@ -33,7 +33,7 @@ bool IOCPObj::Bind( HANDLE olObjHnd, void* olObjParam )
 	return CreateIoCompletionPort(olObjHnd, _hnd, (ULONG_PTR)olObjParam, IGNORED_VAL);	
 }
 
-bool IOCPObj::CreateAndBind( Phenix::UInt8 numberOfConcurrentThreads, HANDLE olObjHnd, void* olObjParam )
+bool IOCPObject::CreateAndBind( Phenix::UInt8 numberOfConcurrentThreads, HANDLE olObjHnd, void* olObjParam )
 {
 	if (_hnd || !olObjHnd)
 	{
