@@ -419,6 +419,22 @@
 				RelativePath="..\include\Phenix\Net\IOCPObject.h"
 				>
 			</File>
+			<File
+				RelativePath="..\src\NetHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Net\NetHelper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Net\Socket.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Sokcet.cpp"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\src\stdafx.cpp"
