@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(POCO_FOUNDATION_INCLUDE)&quot;;&quot;$(GTEST_INCLUDE)&quot;;../include/"
+				AdditionalIncludeDirectories="../include/;../dep/include/mysql/"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="gtestd.lib"
+				AdditionalDependencies="libmysql.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_d.lib"
-				AdditionalLibraryDirectories="&quot;$(POCO_FOUNDATION_LIB)&quot;;&quot;$(GTEST_LIB)&quot;"
+				AdditionalLibraryDirectories="../dep/lib/"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -109,7 +109,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(POCO_FOUNDATION_INCLUDE)&quot;;&quot;$(GTEST_INCLUDE)&quot;;../include/"
+				AdditionalIncludeDirectories="../include/;../dep/include/mysql/"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -128,8 +128,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="gtest.lib"
-				AdditionalLibraryDirectories="&quot;$(POCO_FOUNDATION_LIB)&quot;;&quot;$(GTEST_LIB)&quot;"
+				AdditionalDependencies="libmysql.lib"
+				AdditionalLibraryDirectories="../dep/lib/"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -433,6 +433,34 @@
 			</File>
 			<File
 				RelativePath="..\src\Sokcet.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="MySql"
+			>
+			<File
+				RelativePath="..\src\Connection.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\MySql\Connection.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Query.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\MySql\Query.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\RecordSet.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\MySql\RecordSet.h"
 				>
 			</File>
 		</Filter>
