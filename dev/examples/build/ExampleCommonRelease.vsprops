@@ -8,11 +8,12 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="$(SolutionDir)include"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)include&quot;;&quot;$(SolutionDir)dep\include\mysql&quot;"
 		WarningLevel="4"
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalLibraryDirectories="$(SolutionDir)lib"
+		AdditionalDependencies="libmysql.lib"
+		AdditionalLibraryDirectories="&quot;$(SolutionDir)lib&quot;;&quot;$(SolutionDir)dep\lib&quot;"
 	/>
 </VisualStudioPropertySheet>

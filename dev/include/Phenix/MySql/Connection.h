@@ -25,8 +25,8 @@ public:
 	void disconnect();
 	bool reconnect();
 
-	inline const MYSQL& getDriver() const { return _driver; }	
-	inline const MYSQL_STMT& getStmt() const { return _stmt; }
+	inline MYSQL* getDriver() { return &_driver; }	
+	inline MYSQL_STMT* getStmt() { return &_stmt; }
 
 private:
 	MYSQL		_driver;

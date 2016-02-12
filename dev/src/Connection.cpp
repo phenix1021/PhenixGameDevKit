@@ -37,16 +37,21 @@ bool Connection::connect( const Phenix::String& host, const Phenix::String& user
 		std::cout<<" fail to init mysql, the error "<<mysql_error(&_driver)<<std::endl;
 		return false;
 	}	
+	
 	_stmt = *mysql_stmt_init(&_driver);
-	mysql_options(&_driver, MYSQL_OPT_RECONNECT, NULL);
+	
+	mysql_options(&_driver, MYSQL_OPT_RECONNECT, &(const my_bool&) my_bool(true));
+	mysql_options(&_driver, MYSQL_REPORT_DATA_TRUNCATION, &(const my_bool&) my_bool(true));
+	mysql_options(&_driver, MYSQL_SET_CHARSET_NAME, "utf8");
+	
 	if (mysql_real_connect(&_driver, host.c_str(), user.c_str(), passwd.c_str(),
 		db.c_str(), port, 0, CLIENT_MULTI_STATEMENTS))
 	{
-		std::cout<<mysql_error(&_driver)<<std::endl;
-		return false;
+		_connected = true;
+		return true;
 	}
-	_connected = true;
-	return true;
+	std::cout<<mysql_error(&_driver)<<std::endl;
+	return false;
 }
 
 void Connection::disconnect()

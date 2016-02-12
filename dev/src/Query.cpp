@@ -20,6 +20,16 @@ Query::~Query()
 
 }
 
+bool Query::prepare()
+{
+	if (mysql_stmt_prepare(_conn->getStmt(), _sql.c_str(), _sql.size()))
+	{
+		std::cout<<mysql_stmt_error(_conn->getStmt())<<std::endl;
+		return false;
+	}
+	return true;
+}
+
 } // end namespace  MySql
 } // end namespace Phenix
 

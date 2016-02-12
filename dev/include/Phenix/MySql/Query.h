@@ -25,9 +25,13 @@ public:
 
 	RecordSet* select(){}
 	void execute(){}
+	bool prepare();
+	
+	inline Phenix::String& getSql() { return _sql; }
 
 private:
-	Connection* _conn;
+	Connection*		_conn;
+	Phenix::String	_sql;	
 };
 
 
