@@ -57,7 +57,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Connection* conn = new Connection();
 	if (conn->connect("127.0.0.1", "root", "123456", "test", 3307))
 	{
-		std::cout<<"yes"<<std::endl;
+		//std::cout<<"yes"<<std::endl;
 	}
 /*
  	Phenix::String s = "INSERT INTO workers values(?,'Tom',?,'a good girl!')";
@@ -109,6 +109,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Phenix::Int16 score = 0;
 	rlt[1].buffer = &score;
 	mysql_stmt_bind_result(conn->getStmt(),rlt);
+/*
 	mysql_stmt_execute(conn->getStmt());
 	mysql_stmt_store_result(conn->getStmt());
 	//std::cout<<mysql_stmt_field_count(conn->getStmt())<<std::endl;
@@ -118,9 +119,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	while (!mysql_stmt_fetch(conn->getStmt()))
 	{
 		std::cout<<id<<","<<score<<std::endl;
+	}*/
+	unsigned long type = CURSOR_TYPE_READ_ONLY;//CURSOR_TYPE_NO_CURSOR;
+	unsigned long prefetch_rows = 2;
+	if (mysql_stmt_attr_set(conn->getStmt(), STMT_ATTR_CURSOR_TYPE, (void*)&type) ||
+		mysql_stmt_attr_set(conn->getStmt(), STMT_ATTR_PREFETCH_ROWS, (void*)&prefetch_rows))
+	{
+		std::cout<<mysql_stmt_error(conn->getStmt())<<std::endl;
+		return 0;
+	}	
+	mysql_stmt_execute(conn->getStmt());
+	//std::cout<<mysql_num_rows(conn->getStmt())<<std::endl;	
+	while (!mysql_stmt_fetch(conn->getStmt()))
+	{
+		std::cout<<id<<","<<score<<std::endl;
 	}
-	
-
 	
 	getchar();
 	return 0;
