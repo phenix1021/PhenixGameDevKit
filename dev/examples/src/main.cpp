@@ -83,7 +83,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}*/
 
-	Phenix::String s1 = "SELECT id, score FROM workers;";
+	Phenix::String s1 = "SELECT id, score FROM workers;SELECT id, score FROM workers2;";
 	mysql_stmt_prepare(conn->getStmt(), s1.c_str(), s1.size());
 
 /*
@@ -134,7 +134,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		std::cout<<id<<","<<score<<std::endl;
 	}
-	
+
+	Phenix::MySql::Query query(conn, "select * from worker;");
+		
 	getchar();
 	return 0;
 }

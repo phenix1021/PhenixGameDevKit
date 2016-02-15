@@ -15,24 +15,23 @@ namespace MySql
 {
 
 class Connection;
-class RecordSet;
+class QueryResult;
 
 class Query
 {
 public:
-	Query(Connection* conn);
+	Query(Connection* conn, const Phenix::String& sql);
 	virtual ~Query();
 
-	RecordSet* select(){}
-	void execute(){}
-	bool prepare();
+	template<typename T> void operator << (T& t);
 	
-	inline Phenix::String& getSql() { return _sql; }
+	QueryResult* execute(){return 0;}
 
 private:
 	Connection*		_conn;
 	Phenix::String	_sql;	
 };
+
 
 
 } // end namespace MySql
