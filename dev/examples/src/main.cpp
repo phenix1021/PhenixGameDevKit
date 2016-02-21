@@ -41,7 +41,89 @@ private:
 	Phenix::Concurrent::AtomLock mutex;
 };
 
-int _tmain(int argc, _TCHAR* argv[])
+//#pragma pack(push,1)
+struct LZY	
+{
+	int a;
+	short b;
+	float c;
+	//char d[3];
+};
+//#pragma pack(pop)
+void main()
+{
+	using Phenix::MySql::Connection;
+	Connection* conn = new Connection();
+	if (conn->connect("127.0.0.1", "root", "123456", "test", 3307))
+	{
+		//std::cout<<"yes"<<std::endl;
+	}
+
+
+	Phenix::String s = "INSERT INTO workers3(bin) values(?);";
+	mysql_stmt_prepare(conn->getStmt(), s.c_str(), s.size());
+	MYSQL_BIND binds[1];
+	memset(binds, 0, sizeof(binds));
+    LZY val;
+	val.a = 10;
+	val.b = 20;
+	val.c = 1.0;
+	//val.d = "ok";
+	//char buff[100];
+	//memcpy(buff, &val, sizeof(val));
+	binds[0].buffer = &val;//buff;
+	binds[0].buffer_type = MYSQL_TYPE_VAR_STRING;	
+	binds[0].buffer_length = sizeof(val);
+// 	binds[1].buffer = (void*)&val;
+// 	binds[1].buffer_type = MYSQL_TYPE_VAR_STRING;
+// 	binds[1].buffer_length = sizeof(val);
+// 	binds[2].buffer = (void*)&val;
+// 	binds[2].buffer_type = MYSQL_TYPE_STRING;
+// 	binds[2].buffer_length = sizeof(val);
+// 	binds[3].buffer = (void*)&val;
+// 	binds[3].buffer_type = MYSQL_TYPE_STRING;
+// 	binds[3].buffer_length =sizeof(val);
+
+	mysql_stmt_bind_param(conn->getStmt(), binds);	
+	mysql_stmt_execute(conn->getStmt());
+	mysql_stmt_free_result(conn->getStmt());
+
+	s = "select bin from workers3;";
+	mysql_stmt_prepare(conn->getStmt(), s.c_str(), s.size());
+	MYSQL_BIND rlt[1];
+	memset(rlt, 0, sizeof(rlt));
+	mysql_stmt_execute(conn->getStmt());
+	MYSQL_RES* meta = mysql_stmt_result_metadata(conn->getStmt());
+	MYSQL_FIELD* field = NULL;
+	int i = 0;
+	LZY v[1];
+	//char dst[100];
+	while (field = mysql_fetch_field(meta))
+	{
+		rlt[i].buffer = v;
+		rlt[i].buffer_type = field->type;
+		rlt[i].buffer_length = field->length;
+		++i;
+	}
+	//mysql_stmt_free_result(conn->getStmt());
+	mysql_stmt_bind_result(conn->getStmt(), rlt);
+    mysql_stmt_execute(conn->getStmt());
+	mysql_stmt_store_result(conn->getStmt());
+	//std::cout<<mysql_len_(conn->getStmt());
+	while(1)
+	{
+		if (mysql_stmt_fetch(conn->getStmt()))
+		{
+			break;
+		}
+	}
+
+	
+	getchar();
+	
+}
+
+int _tmain1(int argc, _TCHAR* argv[])
 {		
 	/*TestThread func;	
 	Thread t1("thread1");
