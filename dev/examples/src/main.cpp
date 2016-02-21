@@ -217,7 +217,7 @@ int _tmain1(int argc, _TCHAR* argv[])
 		std::cout<<id<<","<<score<<std::endl;
 	}
 
-	Phenix::MySql::Query query(conn, "select * from worker;");
+	Phenix::MySql::Query query(conn, "select * from worker;", 0);
 		
 	getchar();
 	return 0;

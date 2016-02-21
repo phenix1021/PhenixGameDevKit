@@ -20,16 +20,17 @@ class QueryResult;
 class Query
 {
 public:
-	Query(Connection* conn, const Phenix::String& sql);
+	Query(Connection* conn, const Phenix::String& sql, Phenix::UInt8 param_cnt);
 	virtual ~Query();
 
-	template<typename T> void operator << (T& t);
+	template<typename T> Query& operator << (T& t);
 	
 	QueryResult* execute(){return 0;}
 
 private:
 	Connection*		_conn;
-	Phenix::String	_sql;	
+	MYSQL_BIND*		_param_bind;
+	Phenix::UInt8	_param_bind_idx;
 };
 
 
