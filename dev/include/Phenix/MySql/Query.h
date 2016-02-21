@@ -15,22 +15,27 @@ namespace MySql
 {
 
 class Connection;
-class QueryResult;
+class RecordSetBase;
 
 class Query
 {
 public:
-	Query(Connection* conn, const Phenix::String& sql, Phenix::UInt8 param_cnt);
+	Query(Connection* conn, const Phenix::String& sql, Phenix::UInt8 bind_param_cnt);
 	virtual ~Query();
 
 	template<typename T> Query& operator << (T& t);
 	
-	QueryResult* execute(){return 0;}
+	void select(std::vector<RecordSetBase*>& results, Phenix::UInt32 prefetch_rows = 0);
+	Phenix::UInt32 execute();
 
 private:
+	enum{
+		BIND_MAX_NUM = 100; // 输入和输出的总绑定数上限
+	};
 	Connection*		_conn;
-	MYSQL_BIND*		_param_bind;
-	Phenix::UInt8	_param_bind_idx;
+	MYSQL_BIND		_bind[BIND_MAX_NUM];
+	Phenix::UInt8	_bind_idx;
+	Phenix::UInt8	_bind_param_cnt;
 };
 
 
