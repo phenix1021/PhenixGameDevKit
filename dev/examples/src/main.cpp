@@ -54,9 +54,11 @@ void main()
 {
 	using Phenix::MySql::Connection;
 	Connection* conn = new Connection();
-	if (conn->connect("127.0.0.1", "root", "123456", "test", 3307))
+	if (!conn->connect("127.0.0.1", "root", "123456", "test", 3306))
 	{
-		//std::cout<<"yes"<<std::endl;
+		std::cout<<"fail to connect..."<<std::endl;
+		getchar();
+		return;
 	}
 
 
@@ -88,7 +90,7 @@ void main()
 	mysql_stmt_execute(conn->getStmt());
 	mysql_stmt_free_result(conn->getStmt());
 
-	s = "select bin from workers3;";
+	s = "select * from chenyu;";
 	mysql_stmt_prepare(conn->getStmt(), s.c_str(), s.size());
 	MYSQL_BIND rlt[1];
 	memset(rlt, 0, sizeof(rlt));

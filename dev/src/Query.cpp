@@ -127,18 +127,16 @@ Query& Query::operator<<(T& t)
 	return *this;
 }
 
-void Query::select( std::vector<RecordSetBase*>& results, Phenix::UInt32 prefetch_rows/* = 0*/ )
+void Query::select( std::vector<RecordSet>& results, Phenix::UInt32 prefetch_rows/* = 0*/ )
 {
 	Phenix::Int32 next_rlt_code = 0;
 	Phenix::Int32 result_idx = 0;
+	results.clear();
 	do 
-	{
-		QueryResult rlt;
+	{	
 		MYSQL_RES* meta = mysql_stmt_result_metadata(_conn->getStmt());
 		if (!meta)
-		{
-			//rlt.affected_rows = mysql_stmt_affected_rows(_conn->getStmt());
-			//results.push_back(rlt);
+		{			
 			continue;
 		}		
 		
@@ -157,9 +155,17 @@ void Query::select( std::vector<RecordSetBase*>& results, Phenix::UInt32 prefetc
 // 			mysql_stmt_store_result(_conn->getStmt()); // 可以不用，直接fetch就行
 // 		}	
 		
-		char* buffer_pos = char*(results[result_idx].getBuffer());
+		char* buffer_pos = NULL;
+		Phenix::UInt32 row_length = 0; // 计算行长
+		while (MYSQL_FIELD* col = mysql_fetch_field(meta))
+		{
+			row_length += col->length;
+		}
+		RecordSet record_set(row_length);
 		do 
 		{
+			buffer_pos = (char*)(record_set.addRow());
+			// 遍历各个字段
 			if (_bind_idx + meta->field_count >= BIND_MAX_NUM)
 			{
 				throw;
@@ -171,7 +177,7 @@ void Query::select( std::vector<RecordSetBase*>& results, Phenix::UInt32 prefetc
 				_bind[_bind_idx+i].buffer = buffer_pos;
 				buffer_pos += meta->fields[i].length;
 			}
-		} while (!mysql_stmt_fetch(_conn->getStmt()));
+		} while (!mysql_stmt_fetch(_conn->getStmt())); // 下一行
 
 		mysql_free_result(meta);
 		next_rlt_code = mysql_stmt_next_result(_conn->getStmt());

@@ -7,6 +7,8 @@
 #ifndef PHENIX_MEMORY_OBJECTPOOL_H
 #define PHENIX_MEMORY_OBJECTPOOL_H
 
+#include <algorithm>
+
 namespace Phenix
 {
 namespace Memory
@@ -162,9 +164,9 @@ public:
 		return reinterpret_cast<T*>(ptr);
 	}
 
-	void Release(T* ptr)
+	void Release(void* ptr)
 	{
-		ptr->~T();
+		((T*)ptr)->~T();
 		m_free_chunks.push_back(ptr);		
 	}
 

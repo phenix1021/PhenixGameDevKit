@@ -8,40 +8,59 @@
 #define PHENIX_MYSQL_RECORDSET_H
 
 #include <mysql.h>
+#include <Phenix/Memory/ObjectPool.h>
+#include <Phenix/Base/SharedPtr.h>
 
 namespace Phenix
 {
 namespace MySql
 {
 
-struct QueryResult
-{
-	Phenix::UInt32 affected_rows;
-	QueryResult();	
-};
-
-class RecordSetBase
-{
+class RecordSet
+{	
 public:
-	RecordSetBase();
-	virtual ~RecordSetBase();
+	struct Row
+	{
+		void*			head;		
+		
+		Row(void* ptr);
+		~Row();
+	};
 
-	void* getBuffer() const = 0;
+	static Phenix::Memory::ObjectPool<Row>	row_pool;
+	//static MemoryPool<Row>	record_pool;
+
+public:
+	RecordSet(Phenix::UInt32 row_length):_row_idx(0), _row_length(row_length){}
+	virtual ~RecordSet(){}
+
+	void* addRow();
+
+	template<typename T>
+	bool getData(T*& ptr);
+
+private:
+	void* allocRow();
+
+private:
+	std::vector<Phenix::SharedPtr<Row>> _rows;
+	Phenix::Int32	_row_idx;
+	Phenix::UInt32	_row_length;
 };
 
 template<typename T>
-class RecordSet
-	:public RecordSetBase
+bool Phenix::MySql::RecordSet::getData( T*& ptr )
 {
-public:
-	RecordSet();
-	virtual ~RecordSet();
-
-	void* getBuffer() const {return buffer;}
-
-private:
-	T* buffer;	// 数组首地址
-};
+	if (_row_idx < 0)
+	{
+		return false;
+	}
+	if (_row_length != sizeof(T))
+	{
+		return false;
+	}
+	return true;
+}
 
 
 } // end namespace MySql

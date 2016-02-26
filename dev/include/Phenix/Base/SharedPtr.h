@@ -20,7 +20,7 @@ public:
 	SharedPtr():m_obj(NULL), m_ref_count(new volatile LONG(0)){}		
 	SharedPtr(T* obj):m_obj(obj), m_ref_count(new volatile LONG(1)){obj=NULL;}		
 
-	SharedPtr(SharedPtr& other)
+	SharedPtr(const SharedPtr& other)
 	{
 		m_obj = other.m_obj;
 		m_ref_count = other.m_ref_count;
@@ -54,7 +54,7 @@ public:
 		return *m_ref_count;
 	}
 
-	SharedPtr& operator = (SharedPtr& other)
+	SharedPtr& operator = (const SharedPtr& other)
 	{
 		if (!IsNull())
 		{

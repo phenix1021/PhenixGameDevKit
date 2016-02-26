@@ -8,6 +8,7 @@
 #define PHENIX_MYSQL_QUERY_H
 
 #include <mysql.h>
+#include <Phenix/MySql/RecordSet.h>
 
 namespace Phenix
 {
@@ -25,12 +26,12 @@ public:
 
 	template<typename T> Query& operator << (T& t);
 	
-	void select(std::vector<RecordSetBase*>& results, Phenix::UInt32 prefetch_rows = 0);
+	void select(std::vector<RecordSet>& results, Phenix::UInt32 prefetch_rows = 0);
 	Phenix::UInt32 execute();
 
 private:
 	enum{
-		BIND_MAX_NUM = 100; // 输入和输出的总绑定数上限
+		BIND_MAX_NUM = 100	 // 输入和输出的总绑定数上限
 	};
 	Connection*		_conn;
 	MYSQL_BIND		_bind[BIND_MAX_NUM];
