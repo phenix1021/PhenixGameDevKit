@@ -41,7 +41,7 @@ private:
 	Phenix::Concurrent::AtomLock mutex;
 };
 
-//#pragma pack(push,1)
+#pragma pack(push,1)
 struct LZY	
 {
 	int a;
@@ -49,8 +49,81 @@ struct LZY
 	float c;
 	//char d[3];
 };
-//#pragma pack(pop)
+struct DBR
+{
+	short num;
+	int age;
+	DBR(){memset(this, 0, sizeof(*this));}
+};
+#pragma pack(pop)
 void main()
+{
+	using Phenix::MySql::Connection;
+	Connection* conn = new Connection();
+	if (!conn->connect("127.0.0.1", "root", "123456", "test", 3306))
+	{
+		std::cout<<"fail to connect..."<<std::endl;
+		getchar();
+		return;
+	}
+
+	Phenix::String sql = "select * from temp;";
+	if (mysql_real_query(conn->getDriver(), sql.c_str(), sql.length()))
+	{
+		std::cout<<mysql_error(conn->getDriver())<<std::endl;
+	}
+	MYSQL_RES* res = mysql_use_result(conn->getDriver());	
+// 	Phenix::Int32 len = 0;
+// // 	while (MYSQL_FIELD* col = mysql_fetch_field(res))
+
+	while (MYSQL_ROW row = mysql_fetch_row(res))
+	{		
+		unsigned long* each = mysql_fetch_lengths(res);
+		DBR dbr;
+		memcpy(&dbr, &row, 8);
+		int a = atoi(row[0]);
+		std::cout<<dbr.num<<", "<<dbr.age<<std::endl;
+	}
+	std::cout<<mysql_num_rows(res)<<std::endl;
+	getchar();
+
+}
+
+void main1()
+{
+	using Phenix::MySql::Connection;
+	Connection* conn = new Connection();
+	if (!conn->connect("127.0.0.1", "root", "123456", "test", 3306))
+	{
+		std::cout<<"fail to connect..."<<std::endl;
+		getchar();
+		return;
+	}
+
+	Phenix::MySql::Query query(conn, "SELECT * FROM temp WHERE number > 1000 \
+		SELECT * FROM temp WHERE number <= 150;", 0);	
+	//query << 150 << 1000;
+	std::vector<Phenix::MySql::RecordSet> rlt;
+	query.select(rlt);
+
+	DBR* p = NULL;
+	rlt[0].first();
+	while (rlt[0].getData(p))
+	{
+		std::cout<<p->num<<", "<<p->age<<std::endl;
+		rlt[0].next();
+	}
+	std::cout<<" ========================================= "<<std::endl;
+	rlt[1].first();
+	while (rlt[1].getData(p))
+	{
+		std::cout<<p->num<<", "<<p->age<<std::endl;
+		rlt[1].next();
+	}
+	getchar();
+
+}
+void main2()
 {
 	using Phenix::MySql::Connection;
 	Connection* conn = new Connection();

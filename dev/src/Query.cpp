@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include <iostream>
 #include <Phenix/MySql/Query.h>
-#include <Phenix/MySql/Connection.h>
-#include <Phenix/MySql/RecordSet.h>
 
 namespace Phenix
 {
@@ -32,14 +30,19 @@ namespace MySql
 
 
 Query::Query(Connection* conn, const Phenix::String& sql, Phenix::UInt8 bind_param_cnt)
-	:_conn(conn), _bind_idx(0), _bind_param_cnt(bind_param_cnt)
+	:_conn(conn), _bind_idx(0), _bind_param_cnt(bind_param_cnt), _input_param_buffer_offset(0)
 {
 	if (_bind_param_cnt > BIND_MAX_NUM)
 	{
 		throw;
 	}
 	memset(_bind, 0, sizeof(_bind));
-	mysql_stmt_prepare(_conn->getStmt(), sql.c_str(), sql.size());
+	memset(_input_params_buffer, 0, INPUT_PARAM_BUFFER_LENGTH);
+	if (mysql_stmt_prepare(_conn->getStmt(), sql.c_str(), sql.size()))
+	{
+		std::cout<<mysql_stmt_error(_conn->getStmt())<<std::endl;
+		throw;
+	}
 }
 
 Query::~Query()
@@ -47,139 +50,67 @@ Query::~Query()
 	
 }
 
-template<typename T>
-Query& Query::operator<<(T& t)
-{	
-	//Phenix::UInt8 param_cnt = *(_bind-sizeof(void*))/sizeof(MYSQL_BIND);
-	if (_bind_idx >= _bind_param_cnt)
-	{
-		return *this;
-	}
-	_bind[_bind_idx]->buffer = &t;
-	_bind[_bind_idx]->buffer_length = sizeof(T);
-	type_info& ti = typeid(T);
-	if (ti == typeid(Phenix::Int8))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_TINY;
-		_bind[_bind_idx]->is_unsigned = false;		
-	}
-	else if (ti == typeid(Phenix::UInt8))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_TINY;
-		_bind[_bind_idx]->is_unsigned = true;
-	} 
-	else if (ti == typeid(Phenix::Int16))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_SHORT;
-		_bind[_bind_idx]->is_unsigned = false;
-	}
-	else if (ti == typeid(Phenix::UInt16))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_SHORT;
-		_bind[_bind_idx]->is_unsigned = true;
-	} 
-	else if (ti == typeid(Phenix::Int32))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_LONG;
-		_bind[_bind_idx]->is_unsigned = false;
-	}
-	else if (ti == typeid(Phenix::UInt32))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_LONG;
-		_bind[_bind_idx]->is_unsigned = true;
-	} 
-	else if (ti == typeid(Phenix::Int64))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_LONGLONG;
-		_bind[_bind_idx]->is_unsigned = false;
-	}
-	else if (ti == typeid(Phenix::UInt64))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_LONGLONG;
-		_bind[_bind_idx]->is_unsigned = true;
-	} 
-	else if (ti == typeid(float))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_FLOAT;		
-	} 
-	else if (ti == typeid(double))
-	{
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_DOUBLE;		
-	} 
-	else if (ti == typeid(Phenix::String))
-	{
-		// phenix todo: 处理字符串类型
-		//_param_bind[_param_bind_idx]->buffer_type = MYSQL_TYPE_VAR_STRING;
-		//_param_bind[_param_bind_idx]->buffer_length = t.size();
-		//mysql_real_escape_string
-	}
-	else
-	{
-		// 视为struct或class, 注意应按1字节对齐，二进制形式写入
-		_bind[_bind_idx]->buffer_type = MYSQL_TYPE_STRING;// MYSQL_TYPE_VAR_STRING 也行		
-	}	
-	
-	if (++_bind_idx >= _bind_param_cnt)
-	{
-		mysql_stmt_bind_param(_conn->getStmt(), _bind);		
-	}
-
-	return *this;
-}
-
 void Query::select( std::vector<RecordSet>& results, Phenix::UInt32 prefetch_rows/* = 0*/ )
 {
 	Phenix::Int32 next_rlt_code = 0;
 	Phenix::Int32 result_idx = 0;
 	results.clear();
+	mysql_stmt_execute(_conn->getStmt());
 	do 
-	{	
+	{			
 		MYSQL_RES* meta = mysql_stmt_result_metadata(_conn->getStmt());
-		if (!meta)
+		if (meta)
 		{			
-			continue;
+			if (mysql_stmt_attr_set(_conn->getStmt(), STMT_ATTR_CURSOR_TYPE, 
+				(void*)new Phenix::UInt32(!prefetch_rows? CURSOR_TYPE_NO_CURSOR : CURSOR_TYPE_READ_ONLY))
+				||
+				mysql_stmt_attr_set(_conn->getStmt(), STMT_ATTR_PREFETCH_ROWS, 
+				(void*)new Phenix::UInt32(prefetch_rows)))
+			{
+				std::cout<<mysql_stmt_error(_conn->getStmt())<<std::endl;
+				throw; // 抛出异常
+			}
+
+			//if (!prefetch_rows)
+			//{
+			//	mysql_stmt_store_result(_conn->getStmt()); // 可以不用，直接fetch就行
+			//}	
+
+			Phenix::UInt32 row_length = 0; // 计算行长
+			while (MYSQL_FIELD* col = mysql_fetch_field(meta))
+			{
+				row_length += RecordSet::getColLength(*col);
+			}
+			RecordSet record_set(row_length);
+			bool eof = false;		
+			do 
+			{
+				char* buffer_pos = (char*)(record_set.allocRow());
+				char* pos = buffer_pos;
+				// 遍历各个字段
+				if (_bind_idx + meta->field_count >= BIND_MAX_NUM)
+				{
+					throw;
+				}
+				for (Phenix::Int32 i=0; i<meta->field_count; ++i)
+				{
+					_bind[_bind_idx+i].buffer_length = RecordSet::getColLength(meta->fields[i]);
+					_bind[_bind_idx+i].buffer_type = meta->fields[i].type;
+					_bind[_bind_idx+i].buffer = pos;
+					pos += _bind[_bind_idx+i].buffer_length;
+				}
+				mysql_stmt_bind_result(_conn->getStmt(), _bind+_bind_idx);
+				eof = mysql_stmt_fetch(_conn->getStmt());
+				if (!eof)
+				{
+					record_set.addRow(buffer_pos);				
+				}
+			} while (!eof); // 下一行
+
+			results.push_back(record_set);
+			mysql_free_result(meta);	
 		}		
 		
-		if (mysql_stmt_attr_set(_conn->getStmt(), STMT_ATTR_CURSOR_TYPE, 
-			(void*)new Phenix::UInt32(!prefetch_rows? CURSOR_TYPE_NO_CURSOR : CURSOR_TYPE_READ_ONLY))
-			||
-			mysql_stmt_attr_set(_conn->getStmt(), STMT_ATTR_PREFETCH_ROWS, 
-			(void*)new Phenix::UInt32(prefetch_rows)))
-		{
-			std::cout<<mysql_stmt_error(_conn->getStmt())<<std::endl;
-			throw; // 抛出异常
-		}
-		mysql_stmt_execute(_conn->getStmt());
-// 		if (!prefetch_rows)
-// 		{
-// 			mysql_stmt_store_result(_conn->getStmt()); // 可以不用，直接fetch就行
-// 		}	
-		
-		char* buffer_pos = NULL;
-		Phenix::UInt32 row_length = 0; // 计算行长
-		while (MYSQL_FIELD* col = mysql_fetch_field(meta))
-		{
-			row_length += col->length;
-		}
-		RecordSet record_set(row_length);
-		do 
-		{
-			buffer_pos = (char*)(record_set.addRow());
-			// 遍历各个字段
-			if (_bind_idx + meta->field_count >= BIND_MAX_NUM)
-			{
-				throw;
-			}
-			for (Phenix::Int32 i=0; i<meta->field_count; ++i)
-			{
-				_bind[_bind_idx+i].buffer_length = meta->fields[i].length;
-				_bind[_bind_idx+i].buffer_type = meta->fields[i].type;
-				_bind[_bind_idx+i].buffer = buffer_pos;
-				buffer_pos += meta->fields[i].length;
-			}
-		} while (!mysql_stmt_fetch(_conn->getStmt())); // 下一行
-
-		mysql_free_result(meta);
 		next_rlt_code = mysql_stmt_next_result(_conn->getStmt());
 		if (next_rlt_code > 0)
 		{

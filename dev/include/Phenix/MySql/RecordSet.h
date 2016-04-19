@@ -18,6 +18,7 @@ namespace MySql
 
 class RecordSet
 {	
+	friend class Query;
 public:
 	struct Row
 	{
@@ -25,6 +26,8 @@ public:
 		
 		Row(void* ptr);
 		~Row();
+
+		void operator delete (void* ptr);
 	};
 
 	static Phenix::Memory::ObjectPool<Row>	row_pool;
@@ -34,10 +37,15 @@ public:
 	RecordSet(Phenix::UInt32 row_length):_row_idx(0), _row_length(row_length){}
 	virtual ~RecordSet(){}
 
-	void* addRow();
+	void addRow(void* ptr);
 
 	template<typename T>
 	bool getData(T*& ptr);
+	void first();
+	void next();
+	bool isEOF();
+
+	static Phenix::UInt32 getColLength(MYSQL_FIELD& field);
 
 private:
 	void* allocRow();
@@ -51,14 +59,19 @@ private:
 template<typename T>
 bool Phenix::MySql::RecordSet::getData( T*& ptr )
 {
-	if (_row_idx < 0)
-	{
-		return false;
-	}
 	if (_row_length != sizeof(T))
 	{
 		return false;
 	}
+	if (_rows.empty())
+	{
+		return false;
+	}	
+	if (_row_idx >= _rows.size())
+	{
+		return false;
+	}
+	ptr = (T*)_rows[_row_idx]->head;
 	return true;
 }
 

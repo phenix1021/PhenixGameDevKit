@@ -33,8 +33,8 @@ public:
 	explicit ObjectPool()
 		:m_alloced_obj_count(0)
 	{
-		m_aligned_chunk_size = ((sizeof(Chunk)+sizeof(void*)-1) >> sizeof(void*)) << sizeof(void*);
-		if (m_aligned_chunk_size > BLOCK_SIZE || !Expand())
+		m_aligned_chunk_size = (sizeof(Chunk)+sizeof(void*)) / sizeof(void*) * sizeof(void*);
+		if (m_aligned_chunk_size > BLOCK_SIZE)
 		{
 			throw;
 		}		
@@ -164,20 +164,24 @@ public:
 		return reinterpret_cast<T*>(ptr);
 	}
 
-	void Release(void* ptr)
+	void Release(void* ptr, bool call_destructor = true)
 	{
-		((T*)ptr)->~T();
+		if (call_destructor)
+		{
+			((T*)ptr)->~T();
+		}		
 		m_free_chunks.push_back(ptr);		
 	}
 
 private:
 	void* Alloc()
-	{
-		void* ptr = NULL;
-		if (!m_free_chunks.empty())
+	{		
+		if (m_free_chunks.empty() && !Expand())
 		{
-			ptr = m_free_chunks[0];
+			return NULL;
 		}
+		void* ptr = m_free_chunks[m_free_chunks.size()-1];
+		m_free_chunks.pop_back();
 		return ptr;
 	}
 
@@ -190,7 +194,7 @@ private:
 		void* ptr = malloc(BLOCK_SIZE);
 		m_blocks.push_back(ptr);
 		char* head = reinterpret_cast<char*>(ptr);
-		char* tail = head + BLOCK_SIZE - 1;		
+		char* tail = head + BLOCK_SIZE;		
 		do
 		{
 			m_free_chunks.push_back(head);
