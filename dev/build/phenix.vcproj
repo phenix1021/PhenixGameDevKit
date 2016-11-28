@@ -448,6 +448,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\DriverManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\MySql\DriverManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Query.cpp"
 				>
 			</File>
@@ -461,6 +469,22 @@
 			</File>
 			<File
 				RelativePath="..\include\Phenix\MySql\RecordSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\ResultSet.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\MySql\ResultSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Statement.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\MySql\Statement.h"
 				>
 			</File>
 		</Filter>
