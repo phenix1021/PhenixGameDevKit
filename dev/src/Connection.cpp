@@ -28,7 +28,7 @@ bool Connection::reconnect()
 	return true;
 }
 
-bool Connection::connect( const Phenix::String& host, const Phenix::String& user, 
+bool Connection::getConnect( const Phenix::String& host, const Phenix::String& user, 
 	const Phenix::String& passwd, const Phenix::String& db, Phenix::UInt16 port /*= 3306*/ )
 {
 	disconnect();

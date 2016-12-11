@@ -8,19 +8,35 @@
 #define PHENIX_BASE_PARSER_H
 
 #include <sstream>
+#include <Phenix/Base/Exception.h>
 
 namespace Phenix
 {
+
 class Parser
-{
+{	
 public:
 	template<typename T>
-	inline static Phenix::String ToString(const T& arg)
+	static Phenix::String ToString(const T& arg)
 	{
-		std::ostringstream buffer;
-		buffer << arg;
-		return buffer.str();		
+		if (__is_class(T))
+		{
+			Phenix::UInt32 size = sizeof(T);
+			if (size > STR_BUFFER_SIZE)
+			{
+				throw OutOfMemoryException();
+			}
+			memset(buffer, 0, STR_BUFFER_SIZE);
+			memcpy(buffer, &arg, size);
+			return Phenix::String(buffer);
+		}
+		std::ostringstream sm;
+		sm << arg;
+		return sm.str();		
 	}
+
+private:
+	static char buffer[STR_BUFFER_SIZE];
 };
 
 } // end namespace Phenix

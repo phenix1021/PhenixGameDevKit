@@ -38,9 +38,9 @@ Query::Query(Connection* conn, const Phenix::String& sql, Phenix::UInt8 bind_par
 	}
 	memset(_bind, 0, sizeof(_bind));
 	memset(_input_params_buffer, 0, INPUT_PARAM_BUFFER_LENGTH);
-	if (mysql_stmt_prepare(_conn->getStmt(), sql.c_str(), sql.size()))
+	if (mysql_stmt_prepare(_conn->getMySqlStmt(), sql.c_str(), sql.size()))
 	{
-		std::cout<<mysql_stmt_error(_conn->getStmt())<<std::endl;
+		std::cout<<mysql_stmt_error(_conn->getMySqlStmt())<<std::endl;
 		throw;
 	}
 }
@@ -55,19 +55,19 @@ void Query::select( std::vector<RecordSet>& results, Phenix::UInt32 prefetch_row
 	Phenix::Int32 next_rlt_code = 0;
 	Phenix::Int32 result_idx = 0;
 	results.clear();
-	mysql_stmt_execute(_conn->getStmt());
+	mysql_stmt_execute(_conn->getMySqlStmt());
 	do 
 	{			
-		MYSQL_RES* meta = mysql_stmt_result_metadata(_conn->getStmt());
+		MYSQL_RES* meta = mysql_stmt_result_metadata(_conn->getMySqlStmt());
 		if (meta)
 		{			
-			if (mysql_stmt_attr_set(_conn->getStmt(), STMT_ATTR_CURSOR_TYPE, 
+			if (mysql_stmt_attr_set(_conn->getMySqlStmt(), STMT_ATTR_CURSOR_TYPE, 
 				(void*)new Phenix::UInt32(!prefetch_rows? CURSOR_TYPE_NO_CURSOR : CURSOR_TYPE_READ_ONLY))
 				||
-				mysql_stmt_attr_set(_conn->getStmt(), STMT_ATTR_PREFETCH_ROWS, 
+				mysql_stmt_attr_set(_conn->getMySqlStmt(), STMT_ATTR_PREFETCH_ROWS, 
 				(void*)new Phenix::UInt32(prefetch_rows)))
 			{
-				std::cout<<mysql_stmt_error(_conn->getStmt())<<std::endl;
+				std::cout<<mysql_stmt_error(_conn->getMySqlStmt())<<std::endl;
 				throw; // 抛出异常
 			}
 
@@ -99,8 +99,8 @@ void Query::select( std::vector<RecordSet>& results, Phenix::UInt32 prefetch_row
 					_bind[_bind_idx+i].buffer = pos;
 					pos += _bind[_bind_idx+i].buffer_length;
 				}
-				mysql_stmt_bind_result(_conn->getStmt(), _bind+_bind_idx);
-				eof = mysql_stmt_fetch(_conn->getStmt());
+				mysql_stmt_bind_result(_conn->getMySqlStmt(), _bind+_bind_idx);
+				eof = mysql_stmt_fetch(_conn->getMySqlStmt());
 				if (!eof)
 				{
 					record_set.addRow(buffer_pos);				
@@ -111,10 +111,10 @@ void Query::select( std::vector<RecordSet>& results, Phenix::UInt32 prefetch_row
 			mysql_free_result(meta);	
 		}		
 		
-		next_rlt_code = mysql_stmt_next_result(_conn->getStmt());
+		next_rlt_code = mysql_stmt_next_result(_conn->getMySqlStmt());
 		if (next_rlt_code > 0)
 		{
-			std::cout<<mysql_stmt_error(_conn->getStmt())<<std::endl;
+			std::cout<<mysql_stmt_error(_conn->getMySqlStmt())<<std::endl;
 			throw; // 抛出异常
 		}
 		++result_idx;
@@ -124,8 +124,8 @@ void Query::select( std::vector<RecordSet>& results, Phenix::UInt32 prefetch_row
 
 Phenix::UInt32 Query::execute()
 {
-	mysql_stmt_execute(_conn->getStmt());
-	return mysql_stmt_affected_rows(_conn->getStmt());
+	mysql_stmt_execute(_conn->getMySqlStmt());
+	return mysql_stmt_affected_rows(_conn->getMySqlStmt());
 }
 
 /*

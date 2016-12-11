@@ -31,7 +31,9 @@ public:
 
 	virtual Phenix::String displayText() const
 	{
-		Phenix::String txt(what());
+		Phenix::String txt(__FUNCTION__);
+		txt.append(" ");
+		txt.append(what());
 		if (!_msg.empty())
 		{
 			txt.append(": ");
@@ -61,19 +63,21 @@ public:															\
 DERIVE_EXCEPTION(LogicException, Exception, "Logic exception")
 DERIVE_EXCEPTION(AssertionViolationException, LogicException, "Assertion violation")
 DERIVE_EXCEPTION(NullPointerException, LogicException, "Null pointer")
-DERIVE_EXCEPTION(BugcheckException, LogicException, "Bugcheck")
-DERIVE_EXCEPTION(InvalidArgumentException, LogicException, "Invalid argument")
-DERIVE_EXCEPTION(RangeException, LogicException, "Out of range")
-DERIVE_EXCEPTION(IllegalStateException, LogicException, "Illegal state")
-DERIVE_EXCEPTION(InvalidAccessException, LogicException, "Invalid access")
-DERIVE_EXCEPTION(UnhandledException, LogicException, "Unhandled exception")
+DERIVE_EXCEPTION(MySqlException, LogicException, "mysql exception")
+//DERIVE_EXCEPTION(InvalidArgumentException, LogicException, "Invalid argument")
+//DERIVE_EXCEPTION(BugcheckException, LogicException, "Bugcheck")
+//DERIVE_EXCEPTION(RangeException, LogicException, "Out of range")
+//DERIVE_EXCEPTION(IllegalStateException, LogicException, "Illegal state")
+//DERIVE_EXCEPTION(InvalidAccessException, LogicException, "Invalid access")
+//DERIVE_EXCEPTION(UnhandledException, LogicException, "Unhandled exception")
 
 DERIVE_EXCEPTION(RuntimeException, Exception, "Runtime exception")
-DERIVE_EXCEPTION(NotFoundException, RuntimeException, "Not found")
-DERIVE_EXCEPTION(ExistsException, RuntimeException, "Exists")
-DERIVE_EXCEPTION(TimeoutException, RuntimeException, "Timeout")
-DERIVE_EXCEPTION(PoolOverflowException, RuntimeException, "Pool overflow")
 DERIVE_EXCEPTION(OutOfMemoryException, RuntimeException, "Out of memory")
+//DERIVE_EXCEPTION(NotFoundException, RuntimeException, "Not found")
+//DERIVE_EXCEPTION(ExistsException, RuntimeException, "Exists")
+//DERIVE_EXCEPTION(TimeoutException, RuntimeException, "Timeout")
+//DERIVE_EXCEPTION(PoolOverflowException, RuntimeException, "Pool overflow")
+
 
 
 } // end namespace Phenix

@@ -4,7 +4,7 @@
 //
 
 #pragma once
-
+#include <iostream>
 #include <map>
 #include <set>
 #include <list>
@@ -14,3 +14,5 @@
 #include <Phenix/Base/Types.h>
 
 const double Pi     = 3.14159;
+
+enum {STR_BUFFER_SIZE = 1024*4};

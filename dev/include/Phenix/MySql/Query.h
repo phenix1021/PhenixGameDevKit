@@ -122,7 +122,7 @@ Query& Phenix::MySql::Query::operator<<( T t )
 
 	if (++_bind_idx >= _bind_param_cnt)
 	{
-		mysql_stmt_bind_param(_conn->getStmt(), _bind);
+		mysql_stmt_bind_param(_conn->getMySqlStmt(), _bind);
 		_input_param_buffer_offset = 0;
 	}
 

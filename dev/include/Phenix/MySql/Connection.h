@@ -20,13 +20,13 @@ public:
 	Connection();
 	virtual ~Connection();
 
-	bool connect(const Phenix::String& host, const Phenix::String& database,
+	bool getConnect(const Phenix::String& host, const Phenix::String& database,
 		const Phenix::String& user, const Phenix::String& passwd, Phenix::UInt16 port = 3306);
 	void disconnect();
-	bool reconnect();
+	bool reconnect();	
 
-	inline MYSQL* getDriver() { return &_driver; }	
-	inline MYSQL_STMT* getStmt() { return &_stmt; }
+	inline MYSQL*		getMySql() { return &_driver; }	
+	inline MYSQL_STMT*	getMySqlStmt() { return &_stmt; }
 
 private:
 	MYSQL		_driver;
