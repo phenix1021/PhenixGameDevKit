@@ -8,6 +8,7 @@
 #define PHENIX_MYSQL_CONNECTION_H
 
 #include <mysql.h>
+#include <Phenix/Base/Noncopyable.h>
 
 namespace Phenix
 {
@@ -15,22 +16,22 @@ namespace MySql
 {
 
 class Connection
+	:Phenix::Noncopyable
 {
 public:
 	Connection();
 	virtual ~Connection();
 
-	bool getConnect(const Phenix::String& host, const Phenix::String& database,
+	bool connect(const Phenix::String& host, const Phenix::String& database,
 		const Phenix::String& user, const Phenix::String& passwd, Phenix::UInt16 port = 3306);
-	void disconnect();
-	bool reconnect();	
+	void disconnect();	
 
-	inline MYSQL*		getMySql() { return &_driver; }	
-	inline MYSQL_STMT*	getMySqlStmt() { return &_stmt; }
+	inline MYSQL*		getMySql() { return &_mysql; }	
+	inline MYSQL_STMT*	getMySqlStmt() { return &_mysql_stmt; }
 
 private:
-	MYSQL		_driver;
-	MYSQL_STMT	_stmt;
+	MYSQL		_mysql;
+	MYSQL_STMT	_mysql_stmt;
 	
 	bool		_connected;
 };

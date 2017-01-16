@@ -60,7 +60,7 @@ void main()
 {
 	using Phenix::MySql::Connection;
 	Connection* conn = new Connection();
-	if (!conn->getConnect("127.0.0.1", "root", "123456", "test", 3306))
+	if (!conn->connect("127.0.0.1", "root", "123456", "test", 3306))
 	{
 		std::cout<<"fail to connect..."<<std::endl;
 		getchar();
@@ -93,7 +93,7 @@ void main1()
 {
 	using Phenix::MySql::Connection;
 	Connection* conn = new Connection();
-	if (!conn->getConnect("127.0.0.1", "root", "123456", "test", 3306))
+	if (!conn->connect("127.0.0.1", "root", "123456", "test", 3306))
 	{
 		std::cout<<"fail to connect..."<<std::endl;
 		getchar();
@@ -127,7 +127,7 @@ void main2()
 {
 	using Phenix::MySql::Connection;
 	Connection* conn = new Connection();
-	if (!conn->getConnect("127.0.0.1", "root", "123456", "test", 3306))
+	if (!conn->connect("127.0.0.1", "root", "123456", "test", 3306))
 	{
 		std::cout<<"fail to connect..."<<std::endl;
 		getchar();
@@ -212,7 +212,7 @@ int _tmain1(int argc, _TCHAR* argv[])
 
 	using Phenix::MySql::Connection;
 	Connection* conn = new Connection();
-	if (conn->getConnect("127.0.0.1", "root", "123456", "test", 3307))
+	if (conn->connect("127.0.0.1", "root", "123456", "test", 3307))
 	{
 		//std::cout<<"yes"<<std::endl;
 	}
