@@ -164,6 +164,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath="..\src\GraphTest.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\IndexTest.h"
+			>
+		</File>
+		<File
 			RelativePath="..\src\main.cpp"
 			>
 		</File>
@@ -189,6 +197,10 @@
 		</File>
 		<File
 			RelativePath="..\src\stdafx.h"
+			>
+		</File>
+		<File
+			RelativePath="..\src\UnionFindTest.h"
 			>
 		</File>
 	</Files>

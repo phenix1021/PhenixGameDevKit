@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\Phenix\Base\Index.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\Phenix\Base\Noncopyable.h"
 				>
 			</File>
@@ -407,6 +411,10 @@
 				RelativePath="..\include\Phenix\Collection\RingBuffer.h"
 				>
 			</File>
+			<File
+				RelativePath="..\include\Phenix\Collection\UnionFind.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Net"
@@ -485,6 +493,22 @@
 			</File>
 			<File
 				RelativePath="..\include\Phenix\MySql\Statement.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Graph"
+			>
+			<File
+				RelativePath="..\include\Phenix\Graph\DirectedGraph.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Graph\GraphBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Graph\UndirectedGraph.h"
 				>
 			</File>
 		</Filter>

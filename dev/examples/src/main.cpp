@@ -1,6 +1,3 @@
-// thread.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
 #include <Phenix/Concurrent/Thread.h>
 #include <Phenix/Base/Delegate.h>
@@ -9,6 +6,10 @@
 #include <Phenix/Concurrent/ScopedLock.h>
 #include <Phenix/MySql/Connection.h>
 #include <Phenix/MySql/Query.h>
+
+#include "UnionFindTest.h"
+#include "IndexTest.h"
+#include "GraphTest.h"
 
 using Phenix::Concurrent::Thread;
 
@@ -56,7 +57,8 @@ struct DBR
 	DBR(){memset(this, 0, sizeof(*this));}
 };
 #pragma pack(pop)
-void main()
+
+void main123()
 {
 	using Phenix::MySql::Connection;
 	Connection* conn = new Connection();
@@ -298,3 +300,11 @@ int _tmain1(int argc, _TCHAR* argv[])
 	return 0;
 }
 
+int main(int argc, char* argv[])
+{
+	//unionFindTest(argc, argv);
+	graphTest(argc, argv);
+	//indexTest(argc, argv);
+	getchar();
+	return 0;
+}
