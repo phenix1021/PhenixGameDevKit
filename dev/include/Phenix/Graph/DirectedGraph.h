@@ -17,72 +17,143 @@ namespace Graph
 template<typename NODE, typename WEIGHT>
 class DirectedGraph
 	:public GraphBase<NODE, WEIGHT>
-{
+{	
 public:
 	DirectedGraph(){}
 	virtual ~DirectedGraph(){}
 		
-	virtual bool addEdge(NODE node1, NODE node2, WEIGHT weight);			
-	virtual bool removeNode(NODE node);	
-	virtual bool removeEdge(NODE node1, NODE node2);
+	virtual void addEdge(const NODE& node1, const NODE& node2, const WEIGHT& weight);			
+	virtual void removeNode(const NODE& node);	
+	virtual void removeEdge(const NODE& node1, const NODE& node2);
+	virtual bool isConnected();
 
 private:
-	std::map<NODE, std::map<NODE, WEIGHT>>	_inEdges;	// 入边（不包括无入边的节点）
+	Edges	_inEdges;	// 入边
 };
 
 template<typename NODE, typename WEIGHT>
-bool Phenix::Graph::DirectedGraph<NODE, WEIGHT>::removeEdge( NODE node1, NODE node2 )
+bool Phenix::Graph::DirectedGraph<NODE, WEIGHT>::isConnected()
+{
+	return false;
+}
+
+template<typename NODE, typename WEIGHT>
+void Phenix::Graph::DirectedGraph<NODE, WEIGHT>::removeEdge( const NODE& node1, const NODE& node2 )
 {
 	if (!hasNode(node1) || !hasNode(node2))
 	{
-		return false;
+		return;
 	}
-	getOutEdges()[node1].erase(node2);
-	_inEdges[node2].erase(node1);
-	return true;
+	Phenix::Int32 idx1 = 0;
+	getIdx(node1, idx1);
+	Phenix::Int32 idx2 = 0;	
+	getIdx(node2, idx2);
+
+	getWeights()[idx1][idx2].type = NONE;	
+
+	Edges::iterator iter = getEdges().find(idx1);
+	if (iter != getEdges().end())
+	{
+		Neighbors& neighbors = iter->second;
+		delFromNeighbors(neighbors, idx2);
+		if (neighbors.empty())
+		{
+			getEdges().erase(idx1);
+		}
+	}
+	
+	iter = _inEdges.find(idx2);
+	if (iter != _inEdges.end())
+	{
+		Neighbors& neighbors = iter->second;
+		delFromNeighbors(neighbors, idx1);
+		if (neighbors.empty())
+		{
+			_inEdges.erase(idx2);
+		}
+	}
 }
 
 template<typename NODE, typename WEIGHT>
-bool Phenix::Graph::DirectedGraph<NODE, WEIGHT>::removeNode( NODE node )
+void Phenix::Graph::DirectedGraph<NODE, WEIGHT>::removeNode( const NODE& node )
 {
-	std::map<NODE, std::map<NODE, WEIGHT>>::iterator outIter = getOutEdges().find(node);
-	if (outIter == getOutEdges().end())
+	Phenix::Int32 idx = 0;
+	if (!getIdx(node, idx))
 	{
-		return false; // 即使无边的节点，在outEdges也保留空数据
+		return;
 	}
-	// 处理出边
-	std::map<NODE, WEIGHT>::iterator outItr = outIter->second.begin();
-	for (; outItr != outIter->second.end(); ++outItr)
+
+	for (Phenix::Int32 i=0; i<getWeights().size(); ++i)
 	{
-		_inEdges[outItr->first].erase(node);
+		getWeights()[i][idx].type = NONE;
+		getWeights()[idx][i].type = NONE;
 	}
-	getOutEdges().erase(node);
-	
-	// 处理入边
-	std::map<NODE, std::map<NODE, WEIGHT>>::iterator inIter = _inEdges.find(node);
+
+	// 出边
+	Edges::iterator outIter = getEdges().find(idx);
+	if (outIter != getEdges().end())
+	{
+		Neighbors& neighbors = outIter->second;
+		for (Neighbors::iterator neighbor_iter = neighbors.begin(); neighbor_iter != neighbors.end(); ++neighbor_iter)
+		{
+			Phenix::Int32 neighborIdx = *neighbor_iter;
+			Neighbors& neighborsOfNeighbors = _inEdges[neighborIdx];
+			delFromNeighbors(neighborsOfNeighbors, idx);
+			if (neighborsOfNeighbors.empty())
+			{
+				_inEdges.erase(neighborIdx);
+			}
+		}
+		getEdges().erase(idx);		
+	}
+	// 入边
+	Edges::iterator inIter = _inEdges.find(idx);
 	if (inIter != _inEdges.end())
 	{
-		std::map<NODE, WEIGHT>::iterator inItr = inIter->second.begin();
-		for (; inItr != inIter->second.end(); ++inItr)
+		Neighbors& neighbors = inIter->second;
+		for (Neighbors::iterator neighbor_iter = neighbors.begin(); neighbor_iter != neighbors.end(); ++neighbor_iter)
 		{
-			getOutEdges()[inItr->first].erase(node);
+			Phenix::Int32 neighborIdx = *neighbor_iter;
+			Neighbors& neighborsOfNeighbors = getEdges()[neighborIdx];
+			delFromNeighbors(neighborsOfNeighbors, idx);
+			if (neighborsOfNeighbors.empty())
+			{
+				getEdges().erase(neighborIdx);
+			}
 		}
-		_inEdges.erase(node);
-	}	
-	return true;
+		_inEdges.erase(idx);		
+	}
+
+	delObj(node);	
 }
 
 template<typename NODE, typename WEIGHT>
-bool Phenix::Graph::DirectedGraph<NODE, WEIGHT>::addEdge( NODE node1, NODE node2, WEIGHT weight )
+void Phenix::Graph::DirectedGraph<NODE, WEIGHT>::addEdge( const NODE& node1, const NODE& node2, const WEIGHT& weight )
 {
 	if (node1 == node2)
 	{
-		return false;
+		return;
 	}
-	getOutEdges()[node1][node2] = weight;
-	addNode(node2);
-	_inEdges[node2][node1] = weight;
-	return true;
+	if (!hasNode(node1))
+	{
+		addNode(node1);
+	}
+	if (!hasNode(node2))
+	{
+		addNode(node2);
+	}
+	Phenix::Int32 idx1 = 0;
+	getIdx(node1, idx1);
+	Phenix::Int32 idx2 = 0;
+	getIdx(node2, idx2);
+
+	WeightData data;
+	data.type = NORMAL;
+	data.value = weight;
+	getWeights()[idx1][idx2] = data;	
+
+	getEdges()[idx1].push_back(idx2);
+	_inEdges[idx2].push_back(idx1);
 }
 
 

@@ -8,6 +8,8 @@
 #define PHENIX_COLLECTION_UNION_FIND_H
 
 #include <map>
+#include <set>
+#include <Phenix/Base/Index.h>
 
 namespace Phenix
 {
@@ -16,79 +18,78 @@ namespace Collection
 
 template<typename T>
 class UnionFind
+	:Phenix::IndexMgr<T>
 {
 public:
 	UnionFind(){}
 	virtual ~UnionFind(){}
 
-	bool isRel(T& t1, T& t2);
-	void addRel(T& t1, T& t2);
+	void addRel(const T& t1, const T& t2);	// 并
+	bool isRel(T& t1, T& t2);	// 查
+	void stats(Phenix::Int32& total, Phenix::Int32& rootCount);
+
+private:	
+	Phenix::Int32 getRoot(Phenix::Int32 idx);
 
 private:
-	bool getIdx(T& t, Phenix::UInt32& idx);
-	Phenix::UInt32 getRoot(Phenix::UInt32 idx);
-
-private:
-	std::vector<Phenix::UInt32> _parentList;	// parent列表
-	std::map<T,Phenix::UInt32>	_idxMap;		// T在_parentList中的下标
+	std::vector<Phenix::Int32> _roots;	// root列表
 };
 
 template<typename T>
-Phenix::UInt32 Phenix::Collection::UnionFind<T>::getRoot( Phenix::UInt32 idx )
+void Phenix::Collection::UnionFind<T>::stats( Phenix::Int32& total, Phenix::Int32& rootCount )
 {
-	if (_parentList[idx] == idx)
+	total = _roots.size();	
+	std::set<Phenix::Int32> tmp;
+	std::vector<Phenix::Int32>::iterator iter = _roots.begin();
+	for (; iter != _roots.end(); ++iter)
+	{
+		tmp.insert(*iter);		
+	}
+	rootCount = tmp.size();
+}
+
+template<typename T>
+Phenix::Int32 Phenix::Collection::UnionFind<T>::getRoot( Phenix::Int32 idx )
+{
+	if (_roots[idx] == idx)
 	{
 		return idx;
 	}
-	_parentList[idx] = getRoot(_parentList[idx]); // 同时进行路径压缩
-	return _parentList[idx];
+	_roots[idx] = getRoot(_roots[idx]); // 同时进行路径压缩
+	return _roots[idx];
 }
 
 template<typename T>
-bool Phenix::Collection::UnionFind<T>::getIdx( T& t, Phenix::UInt32& idx )
+void Phenix::Collection::UnionFind<T>::addRel( const T& t1, const T& t2 )
 {
-	std::map<T,Phenix::UInt32>::iterator iter = _idxMap.find(t);
-	if (iter == _idxMap.end())
-	{
-		return false;
-	}
-	idx = iter->second;
-	return true;
-}
-
-template<typename T>
-void Phenix::Collection::UnionFind<T>::addRel( T& t1, T& t2 )
-{
-	Phenix::UInt32 idx1 = 0;
+	Phenix::Int32 idx1 = 0;
 	if (!getIdx(t1, idx1))
 	{
-		idx1 = _parentList.size();
-		_idxMap[t1] = idx1;
-		_parentList.push_back(idx1);
+		addObj(t1, idx1);
+		_roots.push_back(idx1);
 	}
-	Phenix::UInt32 idx2 = 0;
+	Phenix::Int32 idx2 = 0;
 	if (!getIdx(t2, idx2))
 	{
-		idx2 = _parentList.size();
-		_idxMap[t2] = idx2;
-		_parentList.push_back(idx2);
+		addObj(t2, idx2);
+		_roots.push_back(idx2);
 	}
 	if (getRoot(idx1) == getRoot(idx2))
 	{
 		return;
 	}
-	_parentList[getRoot(idx2)] = idx1;
+	_roots[getRoot(idx2)] = idx1;
 }
 
 template<typename T>
 bool Phenix::Collection::UnionFind<T>::isRel( T& t1, T& t2 )
 {
-	Phenix::UInt32 idx1 = 0;
+	Phenix::Int32 idx1 = 0;
 	if (!getIdx(t1, idx1))
 	{
 		return false;
 	}
-	Phenix::UInt32 idx2 = 0;
+	Phenix::Int32 idx2 = 0;
 	if (!getIdx(t2, idx2))
 	{
 		return false;

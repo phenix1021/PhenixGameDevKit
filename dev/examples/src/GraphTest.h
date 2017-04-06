@@ -1,5 +1,6 @@
 #include <Phenix/Graph/UndirectedGraph.h>
 #include <Phenix/Graph/DirectedGraph.h>
+#include <Phenix/Graph/MinPath.h>
 
 /*
 用例说明：图的有关操作
@@ -8,7 +9,7 @@
 using namespace Phenix::Graph;
 
 // 无向图
-void friends1()
+void buildUndirectedGraph()
 {
 	/*
 	 1<=>2 好友度10
@@ -16,24 +17,24 @@ void friends1()
 	 2<=>4 好友度20
 	 3<=>5 好友度30
 	*/	
-	UndirectedGraph<Phenix::UInt32, Phenix::UInt32> ug;
+	UndirectedGraph<Phenix::Int32, Phenix::Int32> ug;
 	
 	ug.addEdge(1,2,10);	
 	ug.addEdge(1,3,15);	
 	ug.addEdge(2,4,20);	
 	ug.addEdge(3,5,30);
-	Phenix::UInt32 w = 0;
-	if (ug.getWeight(2,4,w))
+	Phenix::Int32 w = 0;
+	if (ug.getWeight(2,4,w) && w == 20)
 	{
-		std::cout<<"2-4:"<<w<<std::endl;
+		std::cout<<"2-4:yes"<<w<<std::endl;
 	}
-	if (ug.getWeight(4,2,w))
+	if (ug.getWeight(4,2,w) && w == 20)
 	{
-		std::cout<<"4-2:"<<w<<std::endl;
+		std::cout<<"4-2:yes"<<w<<std::endl;
 	}
-	if (ug.getWeight(3,1,w))
+	if (ug.getWeight(3,1,w) && w == 15)
 	{
-		std::cout<<"3-1:"<<w<<std::endl;
+		std::cout<<"3-1:yes"<<w<<std::endl;
 	}
 	if (!ug.getWeight(1,5,w))
 	{
@@ -60,7 +61,7 @@ void friends1()
 }
 
 // 有向图
-void friends2()
+void buildDirectedGraph()
 {
 	/*
 	 1=>2 好友度10
@@ -70,7 +71,7 @@ void friends2()
 	 2=>4 好友度20
 	 3=>5 好友度30
 	*/	
-	DirectedGraph<Phenix::UInt32, Phenix::UInt32> dg;
+	DirectedGraph<Phenix::Int32, Phenix::Int32> dg;
 	
 	dg.addEdge(1,2,10);
 	dg.addEdge(2,1,5);
@@ -78,7 +79,7 @@ void friends2()
 	dg.addEdge(3,2,1);	
 	dg.addEdge(2,4,20);	
 	dg.addEdge(3,5,30);
-	Phenix::UInt32 w = 0;
+	Phenix::Int32 w = 0;
 	if (dg.getWeight(2,4,w) && w == 20)
 	{
 		std::cout<<"2-4:yes"<<std::endl;
@@ -116,9 +117,69 @@ void friends2()
 	}
 }
 
+void minPath()
+{
+	std::map<Phenix::Int32, Path<Phenix::Int32, Phenix::Int32>> paths;
+
+	// 无向图
+	UndirectedGraph<Phenix::Int32, Phenix::Int32> ug;
+	ug.addEdge(1,2,1);
+	ug.addEdge(2,3,2);
+	ug.addEdge(1,4,10);	
+	ug.addEdge(2,4,8);
+	ug.addEdge(3,4,3);
+	Dijkstra<Phenix::Int32, Phenix::Int32> udik(ug);
+	udik(1, paths);
+	udik(2, paths);
+	udik(3, paths);
+	udik(4, paths);
+
+	std::map<Phenix::Int32, std::map<Phenix::Int32, Path<Phenix::Int32, Phenix::Int32>>> allPaths;
+	Floyd<Phenix::Int32, Phenix::Int32> ufloyd(ug);
+	ufloyd(allPaths);
+
+	// 有向图
+	DirectedGraph<Phenix::Int32, Phenix::Int32> dg;		
+	dg.addEdge(1,2,1);
+	dg.addEdge(2,3,2);
+	dg.addEdge(3,2,1);
+	dg.addEdge(1,4,10);
+	dg.addEdge(2,4,8);
+	dg.addEdge(3,4,3);
+	Dijkstra<Phenix::Int32, Phenix::Int32> ddik(dg);	
+	ddik(1, paths);
+	ddik(2, paths);
+	ddik(3, paths);
+	ddik(4, paths);
+	Floyd<Phenix::Int32, Phenix::Int32> dfloyd(dg);
+	dfloyd(allPaths);
+}
+
+void isConnected()
+{
+	// 无向图
+	UndirectedGraph<Phenix::Int32, Phenix::Int32> ug;
+	ug.addEdge(1,2,1);
+	ug.addEdge(2,3,2);
+	ug.addEdge(1,4,10);	
+	ug.addEdge(2,4,8);
+	ug.addEdge(3,4,3);
+	if (ug.isConnected())
+	{
+		std::cout<<"yes"<<std::endl;
+	}
+	ug.addEdge(5,6,3);
+	if (!ug.isConnected())
+	{
+		std::cout<<"yes"<<std::endl;
+	}
+}
+
 void graphTest(int argc, char* argv[])
 {		
-	friends1();
-	friends2();
+	//buildUndirectedGraph();
+	//buildDirectedGraph();
+	//minPath();
+	isConnected();
 }
 

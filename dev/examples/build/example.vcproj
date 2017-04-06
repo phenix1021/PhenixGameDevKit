@@ -163,6 +163,14 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="Concurrent"
+			>
+			<File
+				RelativePath="..\src\ThreadTest.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\src\GraphTest.h"
 			>

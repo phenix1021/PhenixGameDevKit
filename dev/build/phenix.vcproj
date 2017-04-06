@@ -412,6 +412,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\Phenix\Collection\SkipList.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\Phenix\Collection\UnionFind.h"
 				>
 			</File>
@@ -505,6 +509,10 @@
 			</File>
 			<File
 				RelativePath="..\include\Phenix\Graph\GraphBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\Phenix\Graph\MinPath.h"
 				>
 			</File>
 			<File
