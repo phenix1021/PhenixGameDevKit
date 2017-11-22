@@ -44,7 +44,7 @@ void ThreadPool::PooledThread::run()
 		setIdleTime(0);
 		_func();	// 调用传入的实际执行函数
 		setIdleTime(std::time(NULL));
-		_func.reset();
+		//_func.reset();
 		_completedCLock.lock();
 	}
 }
@@ -110,7 +110,7 @@ bool ThreadPool::startThread( ThreadFunc& func )
 		pt = new PooledThread;
 		_pooledThreads.push_back(pt);
 		pt->setFunc(func);		
-		pt->getThread().start(Phenix::Bind(&PooledThread::run, pt));
+		//pt->getThread().start(std::bind(&PooledThread::run, pt));
 		
 		return true;
 	}		

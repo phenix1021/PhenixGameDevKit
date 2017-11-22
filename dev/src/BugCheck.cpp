@@ -43,7 +43,7 @@ long __stdcall BugCheck::CreateDumpFile( const char* dumpFileName, _EXCEPTION_PO
 		dumpFile = CreateFileA(dumpFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
 		dumpInfo.ExceptionPointers = ep;
-		dumpInfo.ThreadId = Phenix::Concurrent::Thread::getThreadID();
+		dumpInfo.ThreadId = Phenix::Concurrent::Thread::getCurThreadID();
 		dumpInfo.ClientPointers = TRUE;
 		MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), dumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
 	}

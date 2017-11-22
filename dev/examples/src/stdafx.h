@@ -8,6 +8,10 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <iostream>
+#include <vector>
+#include <map>
+#include <set>
+#include <Phenix/Base/Types.h>
 
 
 // TODO: reference additional headers your program requires here

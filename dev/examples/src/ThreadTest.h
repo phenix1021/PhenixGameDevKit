@@ -11,6 +11,10 @@ void func1()
 
 void threadTest(int argc, char* argv[])
 {	
-	// 创建线程
+	// 各类线程同步方式
+	// 原子操作
+	// 生产者消费者
+	// 读者写者
+	// 读写锁
 }
 

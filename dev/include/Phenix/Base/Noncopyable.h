@@ -12,12 +12,10 @@ namespace Phenix
 
 class Noncopyable
 {
-protected:
-	Noncopyable(){}
-	~Noncopyable(){}
-private:
-	const Noncopyable& operator = (const Noncopyable& other);
-	Noncopyable(const Noncopyable& other);
+public:
+	Noncopyable() = default;
+	Noncopyable& operator = (const Noncopyable& other) = delete;
+	Noncopyable(const Noncopyable& other) = delete;
 };
 
 

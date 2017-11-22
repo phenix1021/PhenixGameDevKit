@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <windows.h>
 #include <Phenix/Concurrent/Thread.h>
 #include <Phenix/Base/Parser.h>
 #include <Phenix/Base/BugCheck.h>
@@ -60,8 +59,8 @@ Thread::Thread()
 	_name.append("thread#").append(Phenix::Parser::ToString(++uid));
 }
 
-Thread::Thread( const Phenix::String& thread_name )
-	:_hnd(0), _id(0), _priority(NORMAL), _name(thread_name)
+Thread::Thread( const Phenix::String& name )
+	:_hnd(0), _id(0), _priority(NORMAL), _name(name)
 {
 
 }
@@ -86,17 +85,12 @@ void Thread::cleanUp()
 	}
 }
 
-bool Thread::isCurThread() const
-{
-	return GetCurrentThread() == _hnd;
-}
-
-DWORD Thread::getThreadID()
+DWORD Thread::getCurThreadID()
 {
 	return GetCurrentThreadId();
 }
 
-HANDLE Thread::getThreadHandle()
+HANDLE Thread::getCurThread()
 {
 	return GetCurrentThread();
 }
